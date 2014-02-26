@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Wild Pokemon Appears!</title>
+    <style>
+      body {
+        min-width: 170px;
+        overflow-x: hidden;
+      }
+
+      img {
+        border: 1px solid black;
+        vertical-align: middle;
+        width: 120px;
+        height: 120px;
+      }
+
+      #status {
+        font-style: italic;
+      }
+      #turn {
+        font-size: 12px;
+      }
+    </style>
+
+    <!--
+      - JavaScript and HTML must be in separate files: see our Content Security
+      - Policy documentation[1] for details and explanation.
+      -
+      - [1]: http://developer.chrome.com/extensions/contentSecurityPolicy.html
+     -->
+    <script src="battle.js"></script>
+  </head>
+  <body>
+    <div id='Pokemon'></div>
+    <div id='turn'>Turn 1</div>
+    <div id='Options'></div>
+    <div id='console'></div>
+    <div id='status'></div>
+    <div id="exit"> </div>
+  </body>
+</html>
+
