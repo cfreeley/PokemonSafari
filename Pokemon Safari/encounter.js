@@ -1,4 +1,6 @@
 var start = function(e) {
+	if(localStorage['location'])
+		chrome.browserAction.setIcon({"path":localStorage['location'] + ".png"});
 	setAlarm();
 };
 
@@ -13,8 +15,6 @@ var pokemonFound = function(e) {
 };
 
 document.addEventListener('DOMContentLoaded', function () {
-	if(!localStorage['location'])
-		chrome.browserAction.setIcon({"path":localStorage['location'] + ".png"});
 	start();
 });
 

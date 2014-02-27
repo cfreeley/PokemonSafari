@@ -29,7 +29,8 @@ var pokemon, sprite;
 var crate = 0;
 var counter = 0;
 var turn = 1;
-var level = 10;
+var level = 20;
+var iv = Math.floor(Math.random() * 15) + 1;
 var pokemonGenerator = {
   /**
    * Flickr URL that will give us lots and lots of whatever we're looking for.
@@ -79,6 +80,7 @@ var pokemonGenerator = {
     document.getElementById("Pokemon").appendChild(txtNode);
     var img = document.createElement('img');
     img.src = sprite;
+    img.id = "sprite";
     document.getElementById("Pokemon").appendChild(img);
   },
 
@@ -116,13 +118,13 @@ var choosePokemon = function() {
 var throwBall = 
   function(e) {
     var resultText = "You threw a Pokeball. ";
-    console.log(crate);
     if (isCaught()) {
-      resultText += "Success! You caught the " + pokemon.name;
+      resultText += "Gotcha! " + pokemon.name + " was caught!";
       document.body.removeChild(document.getElementById("status"));
       document.body.removeChild(document.getElementById("Options"));
       document.getElementById("console").textContent = resultText;
       document.getElementById("turn").textContent = "Turn " + (turn + 1);
+      document.getElementById("sprite").style["background-color"] = "lightgreen";
       //document.write("<body bgcolor=\"#FF9900\">");
       recordCapture();
     }
@@ -161,7 +163,7 @@ var throwBait =
 
 var willRun = 
   function() {
-    var spd = ((((pokemon.speed * 2) + 94) * level) / 100) + 5;
+    var spd = Math.floor(((pokemon.speed + iv) * level) / 50) + 10;
     var x = spd * 2;
     if (condition == 'angry') {
       x *= 2;
@@ -169,6 +171,7 @@ var willRun =
     else if (condition == 'eating') {
       x /= 4;
     }
+    console.log(x);
     return x > (Math.random() * 255);
   };
 
@@ -193,6 +196,7 @@ var pokeTurn =
     if (willRun()) {
       resultText += " ran away!";
       document.body.removeChild(document.getElementById("Options"));
+      document.getElementById("sprite").style["background-color"] = "lightpink";
     }
     else {
       resultText += " is " + condition;
@@ -204,7 +208,6 @@ var recordCapture =
   function() {
     var dexEntry = JSON.stringify({name:pokemon.name, img:sprite});
     localStorage[pokemon.national_id.toString()] = dexEntry;
-    console.log(localStorage);//chrome.storage.sync.get(pokemon.national_id.toString(), function(e){}));
   };
 
 // Run our script as soon as the document's DOM is ready.
