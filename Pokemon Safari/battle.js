@@ -31,6 +31,7 @@ var counter = 0;
 var turn = 1;
 var level = 20;
 var iv = Math.floor(Math.random() * 15) + 1;
+var pokeindex;
 var pokemonGenerator = {
   /**
    * Flickr URL that will give us lots and lots of whatever we're looking for.
@@ -52,7 +53,7 @@ var pokemonGenerator = {
   requestPokemon: function() {
     chrome.browserAction.setIcon({"path":localStorage['location'] + ".png"});
     chrome.browserAction.setPopup({"popup":"menu.html"});
-    var pokeindex = choosePokemon();
+    pokeindex = choosePokemon();
     var req = new XMLHttpRequest();
     req.open("GET", this.sprUrl + (pokeindex + 1) + '/', true);
     req.onload = this.showPokemon.bind(this);
@@ -76,8 +77,18 @@ var pokemonGenerator = {
     var entry = JSON.parse(e.target.responseText); //JSON of sprite
     sprite = 'http://pokeapi.co' + entry.image; // Actual sprite
     var pokeName = entry.pokemon.name;
-    var txtNode = document.createTextNode("Wild " + pokeName.toUpperCase() + " appeared!");
+    var txtNode = document.createTextNode("Wild " + pokeName.toUpperCase());
     document.getElementById("Pokemon").appendChild(txtNode);
+    document.getElementById("Pokemon").appendChild(document.createElement('br'));
+    txtNode = document.createTextNode("appeared! ");
+    document.getElementById("Pokemon").appendChild(txtNode);
+    if (localStorage[pokeindex]) {
+      var caught = document.createElement('img');
+      caught.src = "caughtSymbol.png";
+      caught.id = "symbol";
+      document.getElementById("Pokemon").appendChild(caught);
+    }
+    document.getElementById("Pokemon").appendChild(document.createElement('br'));
     var img = document.createElement('img');
     img.src = sprite;
     img.id = "sprite";
@@ -104,6 +115,7 @@ var pokemonGenerator = {
     baitButton.value = "Bait";
     baitButton.onclick = throwBait;
     document.getElementById("Options").appendChild(baitButton);
+
   }
 };
 
@@ -125,8 +137,12 @@ var throwBall =
       document.getElementById("console").textContent = resultText;
       document.getElementById("turn").textContent = "Turn " + (turn + 1);
       document.getElementById("sprite").style["background-color"] = "lightgreen";
+      if (!localStorage[pokeindex]) 
+        document.getElementById("caught").textContent = pokemon.name + " has been added to your Pokedex!"
       //document.write("<body bgcolor=\"#FF9900\">");
       recordCapture();
+      if (localStorage.length == 76) 
+        document.getElementById("safari").textContent = "NEW SAFARI ZONE UNLOCKED!";
     }
     else {
       resultText += "But it missed!";

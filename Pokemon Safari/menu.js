@@ -3,7 +3,7 @@ var setup = function(e) {
 	if(!localStorage['location'])
 		localStorage['location'] = 'forest';
 
-	if (localStorage.length < 75) 
+	if (localStorage.length <= 75) 
 		document.getElementById('cc').style.visibility = "hidden";
 
 	document.getElementById(localStorage['location']).checked = true;

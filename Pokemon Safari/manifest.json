@@ -11,5 +11,9 @@
         "background": {
             "scripts": ["encounter.js"],
             "persistent": false
+        },
+        "icons": {
+            "128": "safari128.png",
+            "48": "iconPokeball.png"
         }
 }
