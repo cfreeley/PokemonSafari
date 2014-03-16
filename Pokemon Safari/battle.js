@@ -53,6 +53,7 @@ var pokemonGenerator = {
   requestPokemon: function() {
     chrome.browserAction.setIcon({"path":localStorage['location'] + ".png"});
     chrome.browserAction.setPopup({"popup":"menu.html"});
+    chrome.notifications.clear("poke", function(){});
     pokeindex = choosePokemon();
     var req = new XMLHttpRequest();
     req.open("GET", this.sprUrl + (pokeindex + 1) + '/', true);

@@ -12,6 +12,13 @@ var pokemonFound = function(e) {
 	setAlarm();
 	chrome.browserAction.setIcon({"path":"icon!.png"});
 	chrome.browserAction.setPopup({"popup":"battle.html"});
+	var opt = {
+        type: "basic",
+        title: "Wild Pokemon Appeared!",
+        message: "Select the \"!\" icon in your browser to battle!",
+        iconUrl: "iconPokeball.png"
+    };
+	chrome.notifications.create("poke", opt, function () {console.log("notified");});
 };
 
 document.addEventListener('DOMContentLoaded', function () {

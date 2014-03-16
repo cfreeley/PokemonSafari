@@ -2,6 +2,7 @@ var setup = function(e) {
 
 	if(!localStorage['location'])
 		localStorage['location'] = 'forest';
+	chrome.browserAction.setIcon({"path":localStorage['location'] + ".png"}); 
 
 	if (localStorage.length <= 75) 
 		document.getElementById('cc').style.visibility = "hidden";

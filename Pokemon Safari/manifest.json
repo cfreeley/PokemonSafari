@@ -1,9 +1,9 @@
 {
         "manifest_version": 2,
         "name": "Pokemon Safari",
-        "version": "1.0",
-        "description": "Pokeparty.",
-        "permissions": ["<all_urls>", "storage", "alarms"],
+        "version": "1.2",
+        "description": "Makes wild Pokemon appear in your browser. Battle them, capture them, and store them into your Pokedex.",
+        "permissions": ["<all_urls>", "storage", "alarms", "notifications"],
         "browser_action": {
             "default_icon": "iconPokeball.png",
             "default_popup": "menu.html"
