@@ -1,11 +1,16 @@
 var setup = function(e) {
 
+	document.getElementById('money').textContent += JSON.parse(localStorage['trainer']).poke;
+
 	if(!localStorage['location'])
 		localStorage['location'] = 'forest';
 	chrome.browserAction.setIcon({"path":localStorage['location'] + ".png"}); 
 
-	if (localStorage.length <= 75) 
+	var dex = JSON.parse(localStorage['pokedex']);
+	if ((Object.keys(dex).length) < 75) 
 		document.getElementById('cc').style.visibility = "hidden";
+	else
+		document.getElementById('cclock').style.visibility = "hidden";
 
 	document.getElementById(localStorage['location']).checked = true;
 
