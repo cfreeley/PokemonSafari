@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Pokemon Safari</title>
+    <h3>Options</h3>
+    <style>
+      body {
+        min-width: 200px;
+      }
+
+      img {
+        margin: 5px;
+        border: 1px solid black;
+        vertical-align: middle;
+        width: 40px;
+        height: 40px;
+      }
+
+    </style>
+
+    <!--
+      - JavaScript and HTML must be in separate files: see our Content Security
+      - Policy documentation[1] for details and explanation.
+      -
+      - [1]: http://developer.chrome.com/extensions/contentSecurityPolicy.html
+     -->
+    <script src="menu.js"></script>
+  </head>
+  <body>
+    Encounter Frequency:
+    <select id="frequency">
+     <option value="common">Common (~1 min)</option>
+     <option value="uncommon">Uncommon (~10 min)</option>
+     <option value="rare">Rare (~45min)</option>
+     <option value="veryrare">Very Rare (~4 hours)</option>
+    </select> <br>
+
+    Pop-up Notifications:
+    <select id="notifications">
+     <option value="on">On</option>
+     <option value="off">Off</option>
+    </select>
+
+    <br> <br> <br>
+    <div id="status"></div>
+    <button id="save">Save</button>
+    </body>
+
+    <script src="options.js"></script>
+  </body>
+</html>
