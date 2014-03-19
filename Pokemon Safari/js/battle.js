@@ -77,9 +77,12 @@ var pokemonGenerator = {
    * @param {ProgressEvent} e The XHR ProgressEvent.
    * @private
    */
+
+
+
   showPokemon: function (e) {
     var entry = JSON.parse(e.target.responseText); //JSON of sprite
-    sprite = 'http://pokeapi.co' + entry.image; // Actual sprite
+    sprite = 'http://www.serebii.net/xy/pokemon/' + urlifyNumber(pokeindex) + '.png'; //+ entry.image; // Actual sprite
     var pokeName = entry.pokemon.name;
     var txtNode = document.createTextNode("Wild " + pokeName.toUpperCase());
     document.getElementById("Pokemon").appendChild(txtNode);
@@ -130,6 +133,13 @@ var pokemonGenerator = {
     document.getElementById("Options").appendChild(baitButton);
 
   }
+};
+
+var urlifyNumber = function(e) {
+  var s = '' + e;
+  while (s.length < 3)
+    s = '0' + s;
+  return s;
 };
 
 var choosePokemon = function() {
