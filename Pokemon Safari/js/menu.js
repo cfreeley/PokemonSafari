@@ -3,7 +3,7 @@ var setup = function(e) {
 		localStorage['location'] = 'forest';
 	chrome.browserAction.setIcon({"path":localStorage['location'] + ".png"}); 
 
-	document.getElementById('balance').textContent += JSON.parse(localStorage['trainer']).poke;
+	document.getElementById('balance').textContent = JSON.parse(localStorage['trainer']).poke;
 	document.getElementById("found_pokemon").innerHTML = Object.keys(JSON.parse(localStorage['pokedex'])).length;
 
 	document.getElementById("showzone").style.backgroundImage = "url('images/big_sprites/" + localStorage['location'] + ".png')";

@@ -1,5 +1,5 @@
 var setup = function(e) {
-	var container = document.getElementById("container");
+	var container = document.getElementById("buttons");
 	
 	var dex = JSON.parse(localStorage['pokedex']);
 	if ((Object.keys(dex).length) > 75) { // Add Chrome City as a button :)
