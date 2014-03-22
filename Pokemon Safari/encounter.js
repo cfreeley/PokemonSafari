@@ -4,7 +4,8 @@ var start = function(e) {
 	}
 	if(localStorage['location'])
 		chrome.browserAction.setIcon({"path":localStorage['location'] + ".png"});
-	setAlarm();
+	console.log('start');
+	chrome.alarms.create("", {"delayInMinutes":1});
 };
 
 var setAlarm = function(e) {

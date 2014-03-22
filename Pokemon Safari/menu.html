@@ -1,53 +1,48 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
     <title>Pokemon Safari</title>
-	<link rel="stylesheet" type="text/css" href="css/global.css">
-	<link rel="stylesheet" type="text/css" href="css/menu.css">
-    
+    <h3>Pokemon Safari</h3>
+    <style>
+      body {
+        min-width: 200px;
+      }
+
+      img {
+        margin: 5px;
+        border: 1px solid black;
+        vertical-align: middle;
+        width: 40px;
+        height: 40px;
+      }
+
+    </style>
 
     <!--
-      ~* Pokemon Safari *~
-	  Application by  /u/superzipzop - Christopher Freeley
-	  CSS by /u/bartoke - http://www.bartoke.nl/
+      - JavaScript and HTML must be in separate files: see our Content Security
+      - Policy documentation[1] for details and explanation.
+      -
+      - [1]: http://developer.chrome.com/extensions/contentSecurityPolicy.html
      -->
-    <script type="text/javascript" src="js/menu.js"></script>
+    <script src="menu.js"></script>
   </head>
   <body>
-  	<div class="container">
-		<div class="header">
-			Pokemon <strong>Safari</strong>
-		</div>
-		<div class="zone">
-			Now exploring <span id="location_name"></span>
-		</div>
-		<a href="zone.html">
-				<div class="change">
-					Change zone
-				</div>
-			</a>
-		<div id="showzone" class="showzone"></div>
-		<div class="stats">
-			<div class="partner">
-				<div id="partner">
-				</div>
-			</div>
-			<div class="content">
-				<p class="dollars"><span id="balance">0</span> PokeDollars</p>
-				<p class="pokemon"><span id="found_pokemon">0</span> of 151 Pokemon</p>
-			</div>
-			
-			<div class="buttons">
-				<div class="box">
-					<a href="shop.html">
-						<div id="button">Shop</div>
-					</a>
-					<a href="pokedex.html">
-						<div id="button">PokeDex</div>
-					</a>
-				</div>
-			</div>
-		</div>
-    </div>
+    <div id='Pokemon'></div>
+    Choose a Safari Zone:
+    <form action="">
+      <input type="radio" name="location" value="forest" id="forest">Feldgrau Forest<br>
+      <input type="radio" name="location" value="tunnel" id="tunnel">Taupe Tunnel<br>
+      <input type="radio" name="location" value="beach" id="beach">Burnt-Sienna Beach<br>
+      <div id='cc'><input type="radio" name="location" value="city" id="city">Chrome City</div>
+      <div id='cclock'>[???: Requires 75 Pokemon]<br></div><br>
+    </form>
+    <br>
+    <div id="money">Total PokeDollars: </div><br>
+    <FORM METHOD="LINK" ACTION="shop.html">
+      <INPUT TYPE="submit" VALUE="Shop">
+    </FORM>
+    <FORM METHOD="LINK" ACTION="pokedex.html">
+      <INPUT TYPE="submit" VALUE="Pokedex">
+    </FORM>
   </body>
 </html>

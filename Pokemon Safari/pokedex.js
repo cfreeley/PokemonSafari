@@ -1,8 +1,11 @@
 var urlifyNumber = function(e) {
-  var s = '' + e;
-  while (s.length < 3)
-    s = '0' + s;
-  return 'http://www.serebii.net/xy/pokemon/' + s + '.png';
+	var s = '' + e;
+	while (s.length < 3)
+		s = '0' + s;
+	if (localStorage['style'] == '2d')
+		return 'http://www.serebii.net/blackwhite/pokemon/' + s + '.png';
+	else
+		return 'http://www.serebii.net/xy/pokemon/' + s + '.png';
 };
 
 var pkdex = JSON.parse(localStorage['pokedex']);

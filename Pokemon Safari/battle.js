@@ -1,13 +1,3 @@
-// Copyright (c) 2012 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
-/**
- * Global variable containing the query we'd like to pass to Flickr. In this
- * case, kittens!
- *
- * @type {string}
- */
 
 var habitats = {};
 habitats.forest = [1,2,3,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,29,30,31,32,33,34,
@@ -31,10 +21,12 @@ var crate = 0;
 var counter = 0;
 var turn = 1;
 var level = 20;
+var tangled = 0;
 var iv = Math.floor(Math.random() * 15) + 1;
 var pokeindex;
 var trainer = JSON.parse(localStorage['trainer']);
 var dex = JSON.parse(localStorage['pokedex']);
+var currentToss = "";
 var pokemonGenerator = {
   /**
    * Flickr URL that will give us lots and lots of whatever we're looking for.
@@ -77,12 +69,9 @@ var pokemonGenerator = {
    * @param {ProgressEvent} e The XHR ProgressEvent.
    * @private
    */
-
-
-
   showPokemon: function (e) {
     var entry = JSON.parse(e.target.responseText); //JSON of sprite
-    sprite = 'http://www.serebii.net/xy/pokemon/' + urlifyNumber(pokeindex) + '.png'; //+ entry.image; // Actual sprite
+    sprite = urlifyNumber(pokeindex); // Actual sprite
     var pokeName = entry.pokemon.name;
     var txtNode = document.createTextNode("Wild " + pokeName.toUpperCase());
     document.getElementById("Pokemon").appendChild(txtNode);
@@ -110,16 +99,7 @@ var pokemonGenerator = {
     ballButton.value = "Pokeball";
     ballButton.onclick = throwBall;
     document.getElementById("Options").appendChild(ballButton);
-
-/*
-    if(trainer.greatballs && trainer.greatballs > 0) {
-      var gbButton = document.createElement("input");
-      gbButton.type = "button";
-      gbButton.value = "Great Ball (x" + trainer.greatballs + ")";
-      gbButton.onclick = throwBall;
-      document.getElementById("Options").appendChild(gbButton);
-    }
-  */  
+    
     var rockButton = document.createElement("input");
     rockButton.type = "button";
     rockButton.value = "Rock";
@@ -132,14 +112,31 @@ var pokemonGenerator = {
     baitButton.onclick = throwBait;
     document.getElementById("Options").appendChild(baitButton);
 
-  }
-};
+    if(trainer.greatballs && trainer.greatballs > 0) {
+      var gbButton = document.createElement("input");
+      gbButton.type = "button";
+      gbButton.value = "Great Ball (x" + trainer.greatballs + ")";
+      gbButton.onclick = throwGreatBall;
+      document.getElementById("Options").appendChild(gbButton);
+    }
 
-var urlifyNumber = function(e) {
-  var s = '' + e;
-  while (s.length < 3)
-    s = '0' + s;
-  return s;
+    if(trainer.nets && trainer.nets > 0) {
+      var netButton = document.createElement("input");
+      netButton.type = "button";
+      netButton.value = "Net (x" + trainer.nets + ")";
+      netButton.onclick = throwNet;
+      document.getElementById("Options").appendChild(netButton);
+    }
+
+    if(trainer.masterballs && trainer.masterballs > 0) {
+      var mbButton = document.createElement("input");
+      mbButton.type = "button";
+      mbButton.value = "Master Ball (x" + trainer.masterballs + ")";
+      mbButton.onclick = throwMasterBall;
+      document.getElementById("Options").appendChild(mbButton);
+    }
+
+  }
 };
 
 var choosePokemon = function() {
@@ -147,15 +144,50 @@ var choosePokemon = function() {
     localStorage['location'] = "forest";
   var lst = habitats[localStorage['location']];
   if (Math.random() < .001)
-    return 150 + Math.round(Math.random());
+    return 151;
+  else if (localStorage['location'] == 'city' && Math.random() < .005)
+    return 150;
   return lst[Math.floor(Math.random() * lst.length)];
   
 };
 
+var urlifyNumber = function(e) {
+  var s = '' + e;
+  while (s.length < 3)
+    s = '0' + s;
+  if (localStorage['style'] == '2d')
+    return 'http://www.serebii.net/blackwhite/pokemon/' + s + '.png';
+  else
+    return 'http://www.serebii.net/xy/pokemon/' + s + '.png';
+};
+
+var throwGreatBall = 
+  function(e) {
+    trainer.greatballs -= 1;
+    currentToss = 'gb';
+    throwBall();
+    localStorage['trainer'] = JSON.stringify(trainer);
+  };
+
+var throwMasterBall = 
+  function(e) {
+    trainer.masterballs -= 1;
+    currentToss = 'mb';
+    throwBall();
+    localStorage['trainer'] = JSON.stringify(trainer);
+  };
+
 var throwBall = 
   function(e) {
-    var resultText = "You threw a Safari Ball. ";
-    if (isCaught()) {
+    var resultText;
+    if (currentToss == 'gb') 
+      resultText = "You threw a Great Ball. ";
+    else if (currentToss == 'mb')
+      resultText = "You threw a Master Ball! ";
+    else
+      resultText = "You threw a Safari Ball. ";
+
+    if (isCaught(currentToss)) {
       resultText += "1... 2... 3... Gotcha! " + pokemon.name + " was caught!";
       document.body.removeChild(document.getElementById("status"));
       document.body.removeChild(document.getElementById("Options"));
@@ -206,6 +238,16 @@ var throwBait =
     pokeTurn();
   };
 
+  var throwNet = 
+  function(e) {
+    var resultText = "You threw a net. ";
+    trainer.nets -= 1;
+    tangled += Math.floor((Math.random()*2)+2);
+    document.getElementById("console").textContent = resultText;
+    localStorage['trainer'] = JSON.stringify(trainer);
+    pokeTurn();
+  };
+
 var willRun = 
   function() {
     var spd = Math.floor(((pokemon.speed + iv) * level) / 50) + 10;
@@ -221,8 +263,14 @@ var willRun =
   };
 
 var isCaught =
-  function() {
-    var chance = crate / 450; //math.min(151,)
+  function(ballType) {
+    currentToss = "";
+    var cr = crate;
+    if (ballType == 'mb')
+      return true;
+    else if (ballType == 'gb')
+      cr *= 1.5;
+    var chance = cr / 450; //math.min(151,)
     return Math.random() < chance;
   };
 
@@ -238,7 +286,11 @@ var pokeTurn =
     else {
       counter--;
     }
-    if (willRun()) {
+    if (tangled > 0) {
+      tangled -= 1;
+      resultText += " is tangled in the net!";
+    }
+    else if (willRun()) {
       resultText += " ran away!";
       document.body.removeChild(document.getElementById("Options"));
       document.getElementById("sprite").style["background-color"] = "lightpink";
