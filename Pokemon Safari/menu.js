@@ -7,10 +7,15 @@ var setup = function(e) {
 	chrome.browserAction.setIcon({"path":localStorage['location'] + ".png"}); 
 
 	var dex = JSON.parse(localStorage['pokedex']);
+	var trainer = JSON.parse(localStorage['trainer']);
 	if ((Object.keys(dex).length) < 75) 
 		document.getElementById('cc').style.visibility = "hidden";
 	else
 		document.getElementById('cclock').style.visibility = "hidden";
+
+	var johto = document.getElementById('johto');
+	if (!trainer.jticket)
+		johto.parentNode.removeChild(johto);
 
 	document.getElementById(localStorage['location']).checked = true;
 

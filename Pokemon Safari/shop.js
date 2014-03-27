@@ -1,8 +1,9 @@
 var items = [
-	{name:"Great Ball", cost:2000, id:"greatballs", img:"greatball.png", desc:"A stronger Pokeball"},
-	{name:"Net", cost:8000, id:"nets", img:"net.png", desc:"Stuns a Pokemon for 2-3 turns"},
+	{name:"Great Ball", cost:500, id:"greatballs", img:"greatball.png", desc:"A stronger Pokeball"},
+	{name:"Net", cost:1000, id:"nets", img:"net.png", desc:"Stuns a Pokemon for 2-3 turns"},
+	{name:"Pal Ball", cost:5000, id:"palballs", rq:50, img:"palball.png", desc:"Befriends caught Pokemon"},
 	{name:"Master Ball", cost:75000, id:"masterballs", rq:100, img:"masterball.png", desc:"Automatically catches a Pokemon"},
-	{name:"S.S. Anne Tickets", cost:100000, id:"jticket", rq:151, img:"ssticket.png", desc:"Allows you to sail to a new region"}];
+	{name:"S.S. Anne Tickets", cost:5000, id:"jticket", rq:150, img:"ssticket.png", desc:"Allows you to sail to a new region", onlyone:true}];
 
 var setup = function(e) {
 	var trainer = JSON.parse(localStorage['trainer']);
@@ -21,6 +22,8 @@ var setup = function(e) {
 			stk.appendChild(desc);	
 		}
 		else {
+			if (trainer[""+x.id] >= 1 && x.onlyone)
+				continue;
 			var s = "";
 			if (trainer[""+x.id])
 				s = ". " + trainer[""+x.id] + " in bag.";
