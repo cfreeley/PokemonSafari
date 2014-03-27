@@ -7,10 +7,6 @@ function save_options() {
   var notif = select.children[select.selectedIndex].value;
   localStorage["notifications"] = notif;
 
-  select = document.getElementById("style");
-  var sty = select.children[select.selectedIndex].value;
-  localStorage["style"] = sty;
-
   // Update status to let user know options were saved.
   var status = document.getElementById("status");
   status.innerHTML = "Options Saved.";
@@ -38,18 +34,6 @@ function restore_options() {
   }
   favorite = localStorage["notifications"];
   select = document.getElementById("notifications");
-  for (var i = 0; i < select.children.length; i++) {
-    var child = select.children[i];
-    if (child.value == favorite) {
-      child.selected = "true";
-      break;
-    }
-  }
-
-  if (!localStorage['style']) 
-    localStorage['style'] = '3d';
-  favorite = localStorage["style"];
-  select = document.getElementById("style");
   for (var i = 0; i < select.children.length; i++) {
     var child = select.children[i];
     if (child.value == favorite) {
