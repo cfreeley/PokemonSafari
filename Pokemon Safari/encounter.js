@@ -4,7 +4,8 @@ var start = function(e) {
 	}
 	if(localStorage['location'])
 		chrome.browserAction.setIcon({"path":localStorage['location'] + ".png"});
-	setAlarm();
+	console.log('start');
+	chrome.alarms.create("", {"delayInMinutes":1});
 };
 
 var setAlarm = function(e) {
@@ -35,6 +36,10 @@ var pokemonFound = function(e) {
 	else {
 		chrome.notifications.clear("",function(e){});
 		console.log("um");
+	}
+	if (localStorage['sound'] == "on") {
+		var aud = new Audio('http://50.7.60.82:777/ost/pokemon-gameboy-sound-collection/fllwdebjsg/107-battle-vs-wild-pokemon-.mp3#t=,4.7');
+		aud.play();
 	}
 };
 

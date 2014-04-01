@@ -24,9 +24,12 @@
       -
       - [1]: http://developer.chrome.com/extensions/contentSecurityPolicy.html
      -->
-    <script src="js/menu.js"></script>
+    <script src="menu.js"></script>
   </head>
   <body>
+
+
+
     Encounter Frequency:
     <select id="frequency">
      <option value="common">Common (~1 min)</option>
@@ -39,13 +42,30 @@
     <select id="notifications">
      <option value="on">On</option>
      <option value="off">Off</option>
+    </select> <br>
+
+    Style:
+    <select id="style">
+     <option value="2d">2D Sprites</option>
+     <option value="3d">3D Models</option>
+    </select><br>
+
+    Sound Effects:
+    <select id="sound">
+     <option value="on">On</option>
+     <option value="off">Off</option>
     </select>
 
     <br> <br> <br>
+
+    <FORM METHOD="LINK" ACTION="menu.html">
+      <INPUT TYPE="submit" VALUE="Back">
+    </FORM>
+    
     <div id="status"></div>
     <button id="save">Save</button>
     </body>
 
-    <script src="js/options.js"></script>
+    <script src="options.js"></script>
   </body>
 </html>
