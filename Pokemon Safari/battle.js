@@ -354,7 +354,9 @@ var pokeTurn =
 var recordCapture = 
   function() {
     var pkdex = JSON.parse(localStorage['pokedex']);
-    pkdex[pokemon.Nat] = {name:pokemon.Pokemon, shiny:shiny};
+    if (!pkdex[pokemon.Nat])
+      pkdex[pokemon.Nat] = {name:pokemon.Pokemon, shiny:shiny};
+    pkdex[pokemon.Nat].shiny = shiny || pkdex[pokemon.Nat].shiny; //Shiny dominates non-shiny
     localStorage['pokedex'] = JSON.stringify(pkdex);
         var pokee = JSON.parse(localStorage['trainer']);
     pokee.poke += pokemon.EXPV;
@@ -623,7 +625,7 @@ var ssData =
   },
   {
     "Nat":29,
-    "Pokemon":"Nidoran-m",
+    "Pokemon":"Nidoran-f",
     "Spe":41,
     "Total":275,
     "Type I":"Poison",
@@ -650,7 +652,7 @@ var ssData =
   },
   {
     "Nat":32,
-    "Pokemon":"Nidoran-f",
+    "Pokemon":"Nidoran-m",
     "Spe":50,
     "Total":273,
     "Type I":"Poison",

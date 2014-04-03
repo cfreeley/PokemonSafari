@@ -85,6 +85,8 @@ var setAlarm = function(e) {
     chrome.alarms.create("", {"delayInMinutes":45});
   else if(localStorage['frequency'] == "uncommon")
     chrome.alarms.create("", {"delayInMinutes":10});
+  else if(localStorage['frequency'] == "random") 
+    chrome.alarms.create("", {"delayInMinutes":(Math.random() * 120)});
   else
     chrome.alarms.create("", {"delayInMinutes":1});
 };
