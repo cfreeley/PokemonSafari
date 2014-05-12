@@ -46,8 +46,8 @@ var cry; var victory;
 var pokemonGenerator = {
 
   requestPokemon: function() {
-    chrome.browserAction.setIcon({"path":localStorage['location'] + ".png"});
-    chrome.browserAction.setPopup({"popup":"menu.html"});
+    chrome.browserAction.setIcon({"path":'/images/'+localStorage['location'] + ".png"});
+    chrome.browserAction.setPopup({"popup":"/html/menu.html"});
     chrome.notifications.clear("poke", function(){});
     pokeindex = choosePokemon();
     pokemon = ssData[pokeindex-1];
@@ -72,7 +72,7 @@ var pokemonGenerator = {
     document.getElementById("Pokemon").appendChild(txtNode);
     if (dex[pokeindex]) {
       var caught = document.createElement('img');
-      caught.src = "caughtSymbol.png";
+      caught.src = "/images/caughtSymbol.png";
       caught.id = "symbol";
       document.getElementById("Pokemon").appendChild(caught);
     }
