@@ -1,0 +1,33 @@
+body {
+  max-width: 150px;
+  overflow-x: hidden;
+  word-wrap:break-word;
+}
+
+img {
+  /*width: 100px;
+  height: 100px;-*/
+  display: block;
+}
+
+#sprite {
+  vertical-align: middle;
+  border: 1px solid black;
+  width: 120px;
+  height: 120px;
+  background-color: beige;
+}
+
+
+
+#status {
+  font-style: italic;
+}
+
+#turn {
+  font-size: 12px;
+}
+
+#yield {
+  font-size: 13px;
+}
