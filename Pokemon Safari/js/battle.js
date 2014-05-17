@@ -25,7 +25,6 @@ habitats.tower = [155,156,157,169,177,178,196,197,198,200,201,202,206,207,218,21
                  227,228,229,233,235,236,237,239,240,250];
 
 
-
 var condition = 'wary'; // Either wary, angry, or eating
 var pokemon, sprite;
 var crate = 0;
@@ -63,19 +62,18 @@ var pokemonGenerator = {
       cry.play();
     }
 
-    sprite = urlifyNumber(pokeindex); // Actual sprite
-    var pokeName = pokemon.Pokemon;
-    var txtNode = document.createTextNode("Wild " + pokeName.toUpperCase());
-    document.getElementById("Pokemon").appendChild(txtNode);
-    document.getElementById("Pokemon").appendChild(document.createElement('br'));
-    txtNode = document.createTextNode("appeared! ");
-    document.getElementById("Pokemon").appendChild(txtNode);
     if (dex[pokeindex]) {
       var caught = document.createElement('img');
       caught.src = "/images/caughtSymbol.png";
       caught.id = "symbol";
       document.getElementById("Pokemon").appendChild(caught);
     }
+
+    sprite = urlifyNumber(pokeindex); // Actual sprite
+    var pokeName = pokemon.Pokemon;
+    var txtNode = document.createTextNode(" Wild " + pokeName.toUpperCase()+" appeared! ");
+    document.getElementById("Pokemon").appendChild(txtNode);
+
     document.getElementById("Pokemon").appendChild(document.createElement('br'));
     var img = document.createElement('img');
     img.src = sprite;
@@ -83,7 +81,6 @@ var pokemonGenerator = {
     document.getElementById("Pokemon").appendChild(img);
     if (shiny) {
       document.getElementById("sprite").style["background-color"] = 'aliceblue';
-      //document.getElementById("sprite").style["border-color"] = 'darkred';
     }
   },
 
@@ -91,60 +88,42 @@ var pokemonGenerator = {
 
     crate = pokemon.Catch; 
 
-    var ballButton = document.createElement("input");
-    ballButton.type = "button";
-    ballButton.value = "Safari Ball";
-    ballButton.onclick = throwBall;
-    document.getElementById("Options").appendChild(ballButton);
-    //document.getElementById("Options").appendChild(document.createElement("br"));
-    
-    var rockButton = document.createElement("input");
-    rockButton.type = "button";
-    rockButton.value = "Rock";
-    rockButton.onclick = throwRock;
-    document.getElementById("Options").appendChild(rockButton);
-    document.getElementById("Options").appendChild(document.createElement("br"));
-    
-    var baitButton = document.createElement("input");
-    baitButton.type = "button";
-    baitButton.value = "Bait";
-    baitButton.onclick = throwBait;
-    document.getElementById("Options").appendChild(baitButton);
-    document.getElementById("Options").appendChild(document.createElement("br"));
-    document.getElementById("Options").appendChild(document.createElement("br"));
+    var options = document.getElementById('Options');
+    options.appendChild(createButton('safaributton', 'Safari Ball', throwBall));
+    options.appendChild(document.createElement('br'));
+    options.appendChild(createButton('baitbutton', 'Bait', throwBait));
+    //options.appendChild(document.createElement('br'));
+    options.appendChild(createButton('rockbutton', 'Rock', throwRock));
+    options.appendChild(document.createElement('br'));
 
     if(trainer.greatballs && trainer.greatballs > 0) {
-      var gbButton = document.createElement("input");
-      gbButton.type = "button";
-      gbButton.id = "gbbutton";
-      gbButton.value = "Great Ball (x" + trainer.greatballs + ")";
-      gbButton.onclick = throwGreatBall;
-      document.getElementById("Options").appendChild(gbButton);
-      document.getElementById("Options").appendChild(document.createElement("br"));
+      options.appendChild(createButton('gbbutton', 'Great Ball (x' + trainer.greatballs + ')', throwGreatBall));
     }
 
     if(trainer.nets && trainer.nets > 0) {
-      var netButton = document.createElement("input");
-      netButton.type = "button";
-      netButton.id = "netbutton";
-      netButton.value = "Net (x" + trainer.nets + ")";
-      netButton.onclick = throwNet;
-      document.getElementById("Options").appendChild(netButton);
-      document.getElementById("Options").appendChild(document.createElement("br"));
+      options.appendChild(createButton('netbutton', 'Net (x' + trainer.nets + ')', throwNet));
     }
+    
+    options.appendChild(document.createElement('br'));
 
     if(trainer.masterballs && trainer.masterballs > 0) {
-      var mbButton = document.createElement("input");
-      mbButton.type = "button";
-      mbButton.id = "mbbutton";
-      mbButton.value = "Master Ball (x" + trainer.masterballs + ")";
-      mbButton.onclick = throwMasterBall;
-      document.getElementById("Options").appendChild(mbButton);
-      document.getElementById("Options").appendChild(document.createElement("br"));
+      options.appendChild(createButton('mbbutton', 'Master Ball (x' + trainer.masterballs + ')', throwMasterBall));
     }
 
   }
 };
+
+var createButton = function(elementId, elementText, onClick){
+      var button = document.createElement('button');
+      button.id = elementId;
+      button.setAttribute('class','btn');
+      button.innerText = elementText;
+      button.onclick = onClick;
+      // var button = document.createElement('li');
+      // button.innerText = elementText;
+      // button.onclick = onClick;
+      return button;
+}
 
 var choosePokemon = function() {
   if (!localStorage['location'])
@@ -184,10 +163,7 @@ var audiofy = function(e) {
   var s = '' + e;
   while (s.length < 3)
     s = '0' + s;
-  //if (localStorage['style'] == '2d')
     return 'http://www.upokecenter.com/images/cries/' + s + 'Cry.mp3';
-  //else
-    //return 'http://www.serebii.net/xy/pokemon/' + s + '.png';
 };
 
 var throwGreatBall = 
@@ -228,15 +204,17 @@ var throwBall =
 
     if (isCaught(currentToss)) {
       resultText += "1... 2... 3... Gotcha! " + pokemon.Pokemon + " was caught!";
-      document.body.removeChild(document.getElementById("status"));
-      document.body.removeChild(document.getElementById("Options"));
+      var input = document.getElementById('userinput');
+      var output = document.getElementById('sysoutput');
+
+      input.removeChild(document.getElementById("Options"));
+      output.removeChild(document.getElementById("status"));
+      
       document.getElementById("console").textContent = resultText;
       document.getElementById("turn").textContent = "Turn " + (turn + 1);
-      document.getElementById("sprite").style["background-color"] = "lightgreen";
       if (!dex[pokeindex]) 
         document.getElementById("caught").textContent = pokemon.Pokemon + " has been added to your Pokedex!"
       document.getElementById("yield").textContent = "Received " + pokemon.EXPV + " PokeDollars!";
-      //document.write("<body bgcolor=\"#FF9900\">");
       if (localStorage['sound'] == 'on') {
         victory = new Audio('http://50.7.60.82:777/ost/pokemon-gameboy-sound-collection/csqodhnibz/108-victory-vs-wild-pokemon-.mp3');
         victory.play();
@@ -306,7 +284,6 @@ var willRun =
     else if (condition == 'eating') {
       x /= 4;
     }
-    console.log(x);
     return x > (Math.random() * 255);
   };
 
@@ -340,8 +317,7 @@ var pokeTurn =
     }
     else if (willRun()) {
       resultText += " ran away!";
-      document.body.removeChild(document.getElementById("Options"));
-      document.getElementById("sprite").style["background-color"] = "lightpink";
+      document.getElementById('userinput').removeChild(document.getElementById("Options"));
       if (localStorage['sound'] == "on") 
         cry.play();   
     }

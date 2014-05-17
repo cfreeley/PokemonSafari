@@ -1,4 +1,4 @@
-[
+var PokemonDex = { "pokedex": [
   {
     "Nat":1,
     "Pokemon":"Bulbasaur",
@@ -5966,4 +5966,4 @@
     "EXPV":270,
     "Catch":3
   }
-]
+]};

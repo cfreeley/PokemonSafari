@@ -29,7 +29,7 @@ var pokemonFound = function(e) {
         type: "basic",
         title: "Wild Pokemon Appeared!",
         message: "Select the \"!\" icon in your browser to battle!",
-        iconUrl: "notification.png"
+        iconUrl: "/images/notification.png"
     };
   if (localStorage['notifications'] != "off") {
 		chrome.notifications.create("poke", opt, function () {console.log("notified");});
