@@ -7,10 +7,8 @@ TO INSTALL: clone the PokemonSafari folder to your computer. Go to Google Chrome
 TO PLAY: Select the Safari Ball icon to open up the menu. There, you can select a "Safari Zone" with the radio buttons, which determines what kind of Pokemon you find. Selecting the "Pokedex" button takes you to a screen showing all the pokemon you have caught. Whenever the icon changes to a "!", clicking on it will initiate a battle. Each turn you can try to catch a pokemon, throw a rock (which makes the pokemon easier to catch but more likely to flee), or throw bait (which does the opposite).
 
 Upcoming changes:
-- Adding shop and inventory
-- Making capture success based on Pokemon's catch-rate
-- Making rarer pokemon appear at lower frequency
-- GUI improvements and better icons
-- Adding tickets to other regions
+- DRYing up some WET parts and increase maintainability by splitting things into modules
+- Improvements in the GUI
+- Adding new regions and features as necessary
 
 Built using the Pokeapi by Paul Hallett.
