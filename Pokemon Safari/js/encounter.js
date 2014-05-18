@@ -91,4 +91,12 @@ var update = function() {
 	}
 };
 
+// var reset = function() {
+//   localStorage['frequency'] = "common";
+//   localStorage['notifications'] = "on";
+//   localStorage['location'] = "forest";
+//   localStorage['trainer'] = JSON.stringify({poke:0});
+//   localStorage['pokedex'] = JSON.stringify({});
+// };
+
 chrome.alarms.onAlarm.addListener(pokemonFound);

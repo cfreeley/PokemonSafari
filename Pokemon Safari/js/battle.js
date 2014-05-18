@@ -53,9 +53,9 @@ var cry; var victory;
 //var ssData = JSON.parse("data.json");
 
 //for the lazy people and debuggers
-// var pokemonFiller = function(){
+// var pokemonFiller = function(lastIndex){
 //   var pokedex = JSON.parse(localStorage['pokedex']);
-//   for(var i = 1; i<=386;i++){
+//   for(var i = 1; i<=lastIndex;i++){
 //       pokedex[i] = {"name":ssData[i-1].Pokemon, "shiny":false};
 //   }
 //   localStorage['pokedex'] = JSON.stringify(pokedex);
