@@ -18,7 +18,7 @@ var displayZone = function (zoneName){
   "forest"  : "Feldgrau Forest",
   "tunnel"  : "Taupe Tunnel",
   "beach"   : "Burnt-Sienna Beach",
-  "city"    : "Chrome Citz",
+  "city"    : "Chrome City",
   "park"    : "Peony Park",
   "glacier" : "Galanthus Glacier",
   "tower"   : "Thistle Tower"
@@ -37,4 +37,12 @@ var displayTrainerInfo = function(){
   var pokedex = JSON.parse(localStorage['pokedex']);
   document.getElementById('balance').innerHTML = trainer['poke'];
   document.getElementById('found_pokemon').innerHTML = Object.keys(pokedex).length;
+  var totalPokemon = 151;
+  if(trainer.jticket){
+    totalPokemon = 251;
+  }
+  if(trainer.hticket){
+    totalPokemon = 386;
+  }
+  document.getElementById('total_pokemon').innerHTML = totalPokemon;
 }

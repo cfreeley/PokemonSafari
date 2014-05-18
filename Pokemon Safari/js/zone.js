@@ -1,44 +1,17 @@
 var setup = function(e) {
-	var container = document.getElementById("buttons");
+	var container = document.getElementById("container");
 	
 	var dex = JSON.parse(localStorage['pokedex']);
 	if ((Object.keys(dex).length) > 75) { // Add Chrome City
-		var chromeCity = document.createElement('div');
-		chromeCity.className = "button city";
-		chromeCity.id = "city";
-		chromeCity.innerHTML = "<span>Chrome City</span>";
-	
-		container.appendChild(chromeCity);
+		container.appendChild(createZone('city', 'Chrome City'));
 	}
 
 	var trainer = JSON.parse(localStorage['trainer']);
 	if (trainer.jticket) { // Add Johto Tour
-
-		var johtoTour = document.createElement('div');
-		johtoTour.className = "title";
-		johtoTour.innerHTML = "Johto Tour";	
-		container.appendChild(johtoTour);
-
-
-		var peonyPark = document.createElement('div');
-		peonyPark.className = "button park";
-		peonyPark.id = "park";
-		peonyPark.innerHTML = "<span>Peony Park</span>";	
-		container.appendChild(peonyPark);
-
-
-		var galanthusGlacier = document.createElement('div');
-		galanthusGlacier.className = "button glacier";
-		galanthusGlacier.id = "glacier";
-		galanthusGlacier.innerHTML = "<span>Galanthus Glacier</span>";	
-		container.appendChild(galanthusGlacier);
-
-
-		var thistleTower = document.createElement('div');
-		thistleTower.className = "button tower";
-		thistleTower.id = "tower";
-		thistleTower.innerHTML = "<span>Thistle Tower</span>";
-		container.appendChild(thistleTower);
+		container.appendChild(createHeader('Johto Tour'));
+		container.appendChild(createZone('park', 'Peony Park'));
+		container.appendChild(createZone('glacier', 'Galanthus Glacier'));
+		container.appendChild(createZone('tower', 'Thistle Tower'));
 	}
 	
 	var buttons = document.getElementsByClassName("button");
@@ -47,6 +20,21 @@ var setup = function(e) {
 		console.log(buttons[i].onclick);
 	};
 };
+
+var createZone = function(id, name){
+	var zone = document.createElement('div');
+	zone.className = 'button '+id;
+	zone.id = id;
+	zone.innerHTML = '<span>'+name+'</span>';
+	return zone;
+}
+
+var createHeader = function(name){
+		var header = document.createElement('div');
+		header.className = "title";
+		header.innerHTML = name;
+		return header;
+}
 
 var click = function(e) {
 	return function() {

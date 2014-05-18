@@ -9,7 +9,7 @@ var items = [
 var setup = function(e) {
 	var trainer = JSON.parse(localStorage['trainer']);
 	var dex = JSON.parse(localStorage['pokedex']);
-	document.getElementById('money').textContent = trainer.poke;
+	document.getElementById('balance').textContent = trainer.poke;
 	var stk = document.getElementById('stock');
 
 	//reset page
@@ -26,11 +26,11 @@ var setup = function(e) {
 		row1.setAttribute('class', 'shopItemRow');
 		container.appendChild(row1);
 		if (item.rq && item.rq > Object.keys(dex).length) {
-			row1.innerText = "???: Requires " + item.rq + " Pokemon";
+			row1.innerHTML = "<strong>???</strong>: Requires <strong>" + item.rq + "</strong> Pokemon";
 		} else {
 				if (trainer[""+item.id] >= 1 && item.onlyone)
 					continue;
-				var quantityInBag =  trainer[""+item.id]? trainer[""+item.id] + " in bag." : "";
+				var quantityInBag =  trainer[""+item.id]? '<strong>'+trainer[""+item.id] + "</strong> in bag." : "";
 
 				var symbol = document.createElement('img');
      		symbol.src = item.img;
@@ -39,7 +39,7 @@ var setup = function(e) {
 
 				var itemName = document.createElement('span');
 				itemName.innerText = item.name;
-     		itemName.setAttribute('class', 'shopItemCell');
+     		itemName.setAttribute('class', 'shopItemCell shopItemTitle');
 				row1.appendChild(itemName);
 
 				var row2 = document.createElement('div');
@@ -61,50 +61,15 @@ var setup = function(e) {
 		    row3.appendChild(buttonBuy);
 
 		    var cost = document.createElement('span')
-		    cost.innerHTML = item.cost + " poke. " + quantityInBag;
+		    cost.innerHTML = ' <strong>'+item.cost + "</strong> poke. " + quantityInBag;
 		    cost.setAttribute('class', 'shopItemCell');
 				row3.appendChild(cost);
 
-				/*container.appendChild(row1);*/
 		    container.appendChild(row2);
 		    container.appendChild(row3);
 		}
 		stk.appendChild(container);
   }
-/*
-	for (var i = 0; i < items.length; i++) {
-		var x = items[i];
-		if (x.rq && x.rq > Object.keys(dex).length) {
-			var desc = document.createElement('div');
-			desc.i("???: Requires " + x.rq + " Pokemon");
-			stk.appendChild(desc);	
-		}
-		else {
-			if (trainer[""+x.id] >= 1 && x.onlyone)
-				continue;
-			var s = "";
-			if (trainer[""+x.id])
-				s = ". " + trainer[""+x.id] + " in bag.";
-			var symbol = document.createElement('img');
-     		symbol.src = x.img;
-      		stk.appendChild(symbol);
-			var desc = document.createTextNode(x.name);
-			stk.appendChild(desc);
-			stk.appendChild(document.createElement('br'));
-			desc = document.createTextNode("\"" + x.desc + "\"");
-			stk.appendChild(desc);
-			stk.appendChild(document.createElement('br'));
-			desc = document.createTextNode(x.cost + " poke" + s);
-			stk.appendChild(desc);	
-		    var butt = document.createElement("input");
-		    butt.type = "button";
-		    butt.value = "Buy";
-		    butt.onclick = buy(x);
-		    stk.appendChild(document.createElement('br'));
-		    stk.appendChild(butt);
-
-		}
-*/
 };
 
 var buy = function (e) {

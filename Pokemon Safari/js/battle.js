@@ -42,6 +42,15 @@ var shiny = Math.random() < .002;
 var cry; var victory;
 //var ssData = JSON.parse("data.json");
 
+//for the lazy people and debuggers
+// var pokemonFiller = function(){
+//   var pokedex = JSON.parse(localStorage['pokedex']);
+//   for(var i = 1; i<=251;i++){
+//       pokedex[i] = {"name":ssData[i-1].Pokemon, "shiny":false};
+//   }
+//   localStorage['pokedex'] = JSON.stringify(pokedex);
+// };
+
 var pokemonGenerator = {
 
   requestPokemon: function() {
@@ -62,6 +71,8 @@ var pokemonGenerator = {
       cry.play();
     }
 
+    var pokemonView = document.getElementById("Pokemon");
+
     if (dex[pokeindex]) {
       var caught = document.createElement('img');
       caught.src = "/images/caughtSymbol.png";
@@ -72,16 +83,17 @@ var pokemonGenerator = {
     sprite = urlifyNumber(pokeindex); // Actual sprite
     var pokeName = pokemon.Pokemon;
     var txtNode = document.createTextNode(" Wild " + pokeName.toUpperCase()+" appeared! ");
-    document.getElementById("Pokemon").appendChild(txtNode);
+    if(shiny){
+        var cls = pokemonView.getAttribute('class');
+        pokemonView.setAttribute('class', cls+' header-shiny');
+    }
+    pokemonView.appendChild(txtNode);
 
-    document.getElementById("Pokemon").appendChild(document.createElement('br'));
+    pokemonView.appendChild(document.createElement('br'));
     var img = document.createElement('img');
     img.src = sprite;
     img.id = "sprite";
-    document.getElementById("Pokemon").appendChild(img);
-    if (shiny) {
-      document.getElementById("sprite").style["background-color"] = 'aliceblue';
-    }
+    pokemonView.appendChild(img);
   },
 
   initBattle: function (e) {
@@ -92,7 +104,6 @@ var pokemonGenerator = {
     options.appendChild(createButton('safaributton', 'Safari Ball', throwBall));
     options.appendChild(document.createElement('br'));
     options.appendChild(createButton('baitbutton', 'Bait', throwBait));
-    //options.appendChild(document.createElement('br'));
     options.appendChild(createButton('rockbutton', 'Rock', throwRock));
     options.appendChild(document.createElement('br'));
 
@@ -114,15 +125,14 @@ var pokemonGenerator = {
 };
 
 var createButton = function(elementId, elementText, onClick){
-      var button = document.createElement('button');
-      button.id = elementId;
-      button.setAttribute('class','btn');
-      button.innerText = elementText;
-      button.onclick = onClick;
-      // var button = document.createElement('li');
-      // button.innerText = elementText;
-      // button.onclick = onClick;
-      return button;
+  var button = document.createElement('a');
+  var div = document.createElement('div');
+  div.id = elementId;
+  div.setAttribute('class','button');
+  div.innerText = elementText;
+  div.onclick = onClick;
+  button.appendChild(div);
+  return button;
 }
 
 var choosePokemon = function() {
@@ -206,15 +216,20 @@ var throwBall =
       resultText += "1... 2... 3... Gotcha! " + pokemon.Pokemon + " was caught!";
       var input = document.getElementById('userinput');
       var output = document.getElementById('sysoutput');
+      var console = document.getElementById('console');
 
       input.removeChild(document.getElementById("Options"));
       output.removeChild(document.getElementById("status"));
       
-      document.getElementById("console").textContent = resultText;
+      console.textContent = resultText;
       document.getElementById("turn").textContent = "Turn " + (turn + 1);
       if (!dex[pokeindex]) 
         document.getElementById("caught").textContent = pokemon.Pokemon + " has been added to your Pokedex!"
       document.getElementById("yield").textContent = "Received " + pokemon.EXPV + " PokeDollars!";
+
+      var classes = output.getAttribute('class');
+      output.setAttribute('class', classes+' pokemoncaught');
+
       if (localStorage['sound'] == 'on') {
         victory = new Audio('http://50.7.60.82:777/ost/pokemon-gameboy-sound-collection/csqodhnibz/108-victory-vs-wild-pokemon-.mp3');
         victory.play();
@@ -318,6 +333,11 @@ var pokeTurn =
     else if (willRun()) {
       resultText += " ran away!";
       document.getElementById('userinput').removeChild(document.getElementById("Options"));
+
+      var console = document.getElementById('sysoutput');
+      var classes = console.getAttribute('class');
+      console.setAttribute('class', classes+' pokemonfled');
+
       if (localStorage['sound'] == "on") 
         cry.play();   
     }
@@ -325,6 +345,7 @@ var pokeTurn =
       resultText += " is " + condition;
     }
     document.getElementById("status").textContent = resultText;
+
   };
 
 var recordCapture = 
