@@ -53,13 +53,13 @@ var cry; var victory;
 //var ssData = JSON.parse("data.json");
 
 //for the lazy people and debuggers
-// var pokemonFiller = function(lastIndex){
-//   var pokedex = JSON.parse(localStorage['pokedex']);
-//   for(var i = 1; i<=lastIndex;i++){
-//       pokedex[i] = {"name":ssData[i-1].Pokemon, "shiny":false};
-//   }
-//   localStorage['pokedex'] = JSON.stringify(pokedex);
-// };
+var pokemonFiller = function(lastIndex){
+  var pokedex = JSON.parse(localStorage['pokedex']);
+  for(var i = 1; i<=lastIndex;i++){
+      pokedex[i] = {"name":ssData[i-1].Pokemon, "shiny":false};
+  }
+  localStorage['pokedex'] = JSON.stringify(pokedex);
+};
 
 var pokemonGenerator = {
 
@@ -143,19 +143,25 @@ var pokemonGenerator = {
     options.appendChild(document.createElement('br'));
     options.appendChild(createButton('baitbutton', 'Bait', throwBait));
     options.appendChild(createButton('rockbutton', 'Rock', throwRock));
-    options.appendChild(document.createElement('br'));
 
     if(trainer.greatballs && trainer.greatballs > 0) {
+      options.appendChild(document.createElement('br'));
       options.appendChild(createButton('gbbutton', 'Great Ball (x' + trainer.greatballs + ')', throwGreatBall));
     }
 
     if(trainer.nets && trainer.nets > 0) {
+      if(trainer.greatballs <= 0){
+        options.appendChild(document.createElement('br'));
+      }
       options.appendChild(createButton('netbutton', 'Net (x' + trainer.nets + ')', throwNet));
     }
-    
-    options.appendChild(document.createElement('br'));
 
     if(trainer.masterballs && trainer.masterballs > 0) {
+      if(trainer.greatballs>0 && trainer.nets>0){
+        options.appendChild(document.createElement('br'));
+      }else if(trainer.greatballs <= 0 || trainer.nets <= 0){
+        options.appendChild(document.createElement('br'));
+      }
       options.appendChild(createButton('mbbutton', 'Master Ball (x' + trainer.masterballs + ')', throwMasterBall));
     }
 
