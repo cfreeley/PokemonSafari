@@ -2,8 +2,36 @@ var start = function(e) {
 	if(!localStorage['trainer']) {
 		update();
 	}
-	if(localStorage['location'])
-		chrome.browserAction.setIcon({"path":"/images/"+localStorage['location'] + ".png"});
+  var location = localStorage.location;
+  switch(location){
+    case 'park':
+      location = 'park';
+      break;
+    case 'forest':
+    case 'jungle':
+    default:
+      location = 'forest';
+      break;
+    case 'glacier':
+    case 'mountain':
+      location = 'glacier';
+      break;
+    case 'tunnel':
+      location = 'tunnel'
+      break;
+    case 'beach':
+    case 'sea':
+      location = 'beach';
+      break;
+    case 'city':
+      location = 'city';
+      break;
+    case 'tower':
+      location = 'tower';
+      break;
+    }
+  	chrome.browserAction.setIcon({"path":"/images/"+location+ ".png"});
+	
 	console.log('start');
 	chrome.alarms.create("", {"delayInMinutes":1});
 };
@@ -32,7 +60,7 @@ var pokemonFound = function(e) {
         iconUrl: "/images/notification.png"
     };
   if (localStorage['notifications'] != "off") {
-		chrome.notifications.create("poke", opt, function () {console.log("notified");});
+		chrome.notifications.create("poke", opt, function () {});
 		console.log(localStorage['notifications'] != "off");
 	}
 	else {

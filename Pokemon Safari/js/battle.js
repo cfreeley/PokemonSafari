@@ -24,6 +24,14 @@ habitats.glacier = [158,159,160,170,171,199,208,211,215,220,221,222,223,224,225,
 habitats.tower = [155,156,157,169,177,178,196,197,198,200,201,202,206,207,218,219,
                  227,228,229,233,235,236,237,239,240,250];
 
+//Hoenn
+habitats.jungle   = [255,256,257,261,262,263,264,276,277,315,265,266,267,268,269,285,286,273,274,275,290,291,
+                     292,313,314,287,288,289,300,301,352,333,334,357,355,356,252,253,254,353,354,280,281,282];
+habitats.sea      = [341,342,339,340,270,271,272,283,284,298,349,350,347,348,258,259,260,278,279,366,367,368,
+                     370,363,364,365,318,319,320,321,369,345,346,382];
+habitats.mountain = [361,362,293,294,295,299,302,303,360,337,338,325,326,322,323,296,297,307,308,
+                     327,324,304,305,306,359,331,332,328,329,330,343,344,371,372,373,374,375,376,383];
+
 
 var condition = 'wary'; // Either wary, angry, or eating
 var pokemon, sprite;
@@ -37,7 +45,9 @@ var pokeindex;
 var trainer = JSON.parse(localStorage['trainer']);
 var dex = JSON.parse(localStorage['pokedex']);
 var currentToss = "";
+var inKantp = localStorage['location'] == 'forest' || localStorage['location'] == 'tunnel' || localStorage['location'] == 'beach' || localStorage['location'] == 'city';
 var inJohto = localStorage['location'] == 'park' || localStorage['location'] == 'glacier' || localStorage['location'] == 'tower';
+var inHoenn = localStorage['location'] == 'jungle' || localStorage['location'] == 'sea' || localStorage['location'] == 'mountain';
 var shiny = Math.random() < .002;
 var cry; var victory;
 //var ssData = JSON.parse("data.json");
@@ -45,7 +55,7 @@ var cry; var victory;
 //for the lazy people and debuggers
 // var pokemonFiller = function(){
 //   var pokedex = JSON.parse(localStorage['pokedex']);
-//   for(var i = 1; i<=251;i++){
+//   for(var i = 1; i<=386;i++){
 //       pokedex[i] = {"name":ssData[i-1].Pokemon, "shiny":false};
 //   }
 //   localStorage['pokedex'] = JSON.stringify(pokedex);
@@ -54,7 +64,35 @@ var cry; var victory;
 var pokemonGenerator = {
 
   requestPokemon: function() {
-    chrome.browserAction.setIcon({"path":'/images/'+localStorage['location'] + ".png"});
+    var location = localStorage.location;
+    switch(location){
+      case 'park':
+        location = 'park';
+        break;
+      case 'forest':
+      case 'jungle':
+      default:
+        location = 'forest';
+        break;
+      case 'glacier':
+      case 'mountain':
+        location = 'glacier';
+        break;
+      case 'tunnel':
+        location = 'tunnel'
+        break;
+      case 'beach':
+      case 'sea':
+        location = 'beach';
+        break;
+      case 'city':
+        location = 'city';
+        break;
+      case 'tower':
+        location = 'tower';
+        break;
+      }
+    chrome.browserAction.setIcon({"path":'/images/'+location + ".png"});
     chrome.browserAction.setPopup({"popup":"/html/menu.html"});
     chrome.notifications.clear("poke", function(){});
     pokeindex = choosePokemon();
@@ -136,18 +174,39 @@ var createButton = function(elementId, elementText, onClick){
 }
 
 var choosePokemon = function() {
-  if (!localStorage['location'])
-    localStorage['location'] = "forest";
-  var lst = habitats[localStorage['location']];
-  if (Math.random() < .005)
+  var location = localStorage.location;
+  if (!location)
+    location = "forest";
+  var lst = habitats[location];
+  var trainer = JSON.parse(localStorage.trainer);
+
+  //Special Pokemon alert!
+  if (Math.random() < .005) //(Math.random() < .005) - for all below
     return 151;
-  else if (localStorage['location'] == 'city' && Math.random() < .01)
+  else if (location == 'city' && Math.random() < .01)
     return 150;
-  else if (Math.random() < .005 && inJohto)
+  else if (Math.random() < .005 && inJohto) // Raikou, Entei and Suicune
     return 243 + Math.floor(Math.random() * 3);
-  else if (Math.random() < .005 && inJohto)
+  else if (Math.random() < .005 && inHoenn && location == 'mountain') // Regirock, Regice, Registeel
+    return 377 + Math.floor(Math.random() * 3);
+  else if (Math.random() < .005 && inJohto) // Celebi
     return 251;
-  else if (Math.random() < .00001)
+  else if (Math.random() < .005 && inHoenn) // Jirachi
+    return 385;
+  else if (Math.random() < .005 && inHoenn && trainer.zoomlens) // Zoom Lens Pokemon
+    if(location == 'jungle'){
+      var choices = [384, 386]; //Rayquaza, Deoxys
+      return choices[Math.floor(Math.random() * 2)];
+
+    } else if (location == 'sea'){
+      var choices = [380, 381, 384]; //Latias, Latios, Rayquaza
+      return choices[Math.floor(Math.random() * 4)];
+
+    } else {
+      var choices = [386]; //Deoxys 
+      return choices[Math.floor(Math.random() * 1)];
+    }
+  else if (Math.random() < .00001) // lol
     return 399;
   return lst[Math.floor(Math.random() * lst.length)];
   

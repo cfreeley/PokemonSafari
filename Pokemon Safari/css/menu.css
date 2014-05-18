@@ -9,6 +9,10 @@
 	background:						#354b5e;
 }
 
+.showzone{
+	/*background-size:			contain;*/
+}
+
 .change {
 	height:								22px;
 	line-height:					22px;
@@ -90,4 +94,8 @@
 }
 .stats .content p.pokemon span { 
 	color: 								#d74b4b;
+}
+
+.navibar .button {
+  text-transform:     uppercase;
 }

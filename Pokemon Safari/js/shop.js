@@ -4,8 +4,9 @@ var items = [
 	//{name:"Pal Ball", cost:5000, id:"palballs", rq:50, img:"palball.png", desc:"Befriends caught Pokemon"},
 	{name:"Master Ball", cost:75000, id:"masterballs", rq:100, img:"/images/masterball.png", desc:"Automatically catches a Pokemon"},
 	{name:"S.S. Anne Tickets", cost:5000, id:"jticket", rq:150, img:"/images/ssticket.png", desc:"Allows you to sail to another nearby region", onlyone:true},
-	{name:"Slateport Tickets", cost:5000, id:"hticket", rq:249, img:"/images/ssticket.png", desc:"Allows you to sail to a tropical region", onlyone:true}];
-
+	{name:"Slateport Tickets", cost:5000, id:"hticket", rq:249, img:"/images/hticket.png", desc:"Allows you to sail to a tropical region", onlyone:true},
+	{name:"Zoom Lens", cost:2000, id:"zoomlens", rq:300, img:"/images/zoomlens.png", desc:"A peculiar binocular that is used to study Pokemon far up in the sky", onlyone:true}];
+	
 var setup = function(e) {
 	var trainer = JSON.parse(localStorage['trainer']);
 	var dex = JSON.parse(localStorage['pokedex']);
@@ -28,10 +29,6 @@ var setup = function(e) {
 		if (item.rq && item.rq > Object.keys(dex).length) {
 			row1.innerHTML = "<strong>???</strong>: Requires <strong>" + item.rq + "</strong> Pokemon";
 		} else {
-				if (trainer[""+item.id] >= 1 && item.onlyone)
-					continue;
-				var quantityInBag =  trainer[""+item.id]? '<strong>'+trainer[""+item.id] + "</strong> in bag." : "";
-
 				var symbol = document.createElement('img');
      		symbol.src = item.img;
      		symbol.setAttribute('class', 'shopItemCell');
@@ -53,17 +50,25 @@ var setup = function(e) {
 				var row3 = document.createElement('div');
 				row3.setAttribute('class', 'shopItemRow');
 
-		    var buttonBuy = document.createElement("input");
-		    buttonBuy.type = "button";
-		    buttonBuy.value = "Buy";
-		    buttonBuy.onclick = buy(item);
-		    buttonBuy.setAttribute('class', 'shopItemCell');
-		    row3.appendChild(buttonBuy);
+				if (trainer[""+item.id] >= 1 && item.onlyone){
+			    var cost = document.createElement('span')
+			    cost.innerHTML = ' <strong>Already purchased.</strong>';
+			    cost.setAttribute('class', 'shopItemCell');
+					row3.appendChild(cost);
+				} else {
+		    	var buttonBuy = document.createElement("input");
+		    	buttonBuy.type = "button";
+		    	buttonBuy.value = "Buy";
+		    	buttonBuy.onclick = buy(item);
+		    	buttonBuy.setAttribute('class', 'shopItemCell');
+		    	row3.appendChild(buttonBuy);
 
-		    var cost = document.createElement('span')
-		    cost.innerHTML = ' <strong>'+item.cost + "</strong> poke. " + quantityInBag;
-		    cost.setAttribute('class', 'shopItemCell');
-				row3.appendChild(cost);
+			    var cost = document.createElement('span');
+   				var quantityInBag =  trainer[""+item.id]? '<strong>'+trainer[""+item.id] + "</strong> in bag." : "";
+			    cost.innerHTML = ' <strong>'+item.cost + "</strong> poke. " + quantityInBag;
+			    cost.setAttribute('class', 'shopItemCell');
+					row3.appendChild(cost);
+				}
 
 		    container.appendChild(row2);
 		    container.appendChild(row3);

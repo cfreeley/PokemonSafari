@@ -1,8 +1,37 @@
 var setup = function(e) {
 	if(!localStorage['location']){
 		localStorage['location'] = 'forest';
-		chrome.browserAction.setIcon({"path":"/images/"+localStorage['location'] + ".png"});
 	}
+
+  var location = localStorage.location;
+  switch(location){
+      case 'park':
+        location = 'park';
+        break;
+      case 'forest':
+      case 'jungle':
+      default:
+        location = 'forest';
+        break;
+      case 'glacier':
+      case 'mountain':
+        location = 'glacier';
+        break;
+      case 'tunnel':
+        location = 'tunnel'
+        break;
+      case 'beach':
+      case 'sea':
+        location = 'beach';
+        break;
+      case 'city':
+        location = 'city';
+        break;
+      case 'tower':
+        location = 'tower';
+        break;
+    }
+  chrome.browserAction.setIcon({"path":"/images/"+location+ ".png"});
 
   displayZone(localStorage.location);
   displayTrainerInfo();
@@ -15,13 +44,16 @@ document.addEventListener('DOMContentLoaded', function () {
 var displayZone = function (zoneName){
   //move these locations into a separate file
   var locations = {
-  "forest"  : "Feldgrau Forest",
-  "tunnel"  : "Taupe Tunnel",
-  "beach"   : "Burnt-Sienna Beach",
-  "city"    : "Chrome City",
-  "park"    : "Peony Park",
-  "glacier" : "Galanthus Glacier",
-  "tower"   : "Thistle Tower"
+  "forest"   : "Feldgrau Forest",
+  "tunnel"   : "Taupe Tunnel",
+  "beach"    : "Burnt-Sienna Beach",
+  "city"     : "Chrome City",
+  "park"     : "Peony Park",
+  "glacier"  : "Galanthus Glacier",
+  "tower"    : "Thistle Tower",
+  "jungle"   : "Jungle",
+  "sea"      : "Miracle Sea",
+  "mountain" : "Mt. Chimney"
   };
 
   var locationName = document.getElementById("location_name");

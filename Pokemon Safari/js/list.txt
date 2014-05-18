@@ -1,0 +1,157 @@
+Grassland Pokémon
+
+263  Zigzagoon
+264  Linoone
+261  Poochyena
+262  Mightyena
+276  Taillow
+277  Swellow
+315  Roselia
+255  Torchic
+256  Combusken
+257  Blaziken
+
+Forest Pokémon
+
+265  Wurmple
+266  Silcoon
+267  Beautifly
+268  Cascoon
+269  Dustox
+285  Shroomish
+286  Breloom
+273  Seedot
+274  Nuzleaf
+275  Shiftry
+290  Nincada
+291  Ninjask
+292  Shedinja
+313  Volbeat
+314  Illumise
+287  Slakoth
+288  Vigoroth
+289  Slaking
+300  Skitty
+301  Delcatty
+352  Kecleon
+333  Swablu
+334  Altaria
+357  Tropius
+355  Duskull
+356  Dusclops
+252  Treecko
+253  Grovyle
+254  Sceptile
+
+Urban Pokémon
+
+353  Shuppet
+354  Banette
+280  Ralts
+281  Kirlia
+282  Gardevoir
+
+--------------------------
+
+Water's-edge Pokémon
+
+341  Corphish
+342  Crawdaunt
+339  Barboach
+340  Whiscash
+270  Lotad
+271  Lombre
+272  Ludicolo
+283  Surskit
+284  Masquerain
+298  Azurill
+349  Feebas
+350  Milotic
+347  Anorith
+348  Armaldo
+258  Mudkip
+259  Marshtomp
+260  Swampert
+
+Sea Pokémon
+
+278  Wingull
+279  Pelipper
+366  Clamperl
+367  Huntail
+368  Gorebyss
+370  Luvdisc
+363  Spheal
+364  Sealeo
+365  Walrein
+318  Carvanha
+319  Sharpedo
+320  Wailmer
+321  Wailord
+369  Relicanth
+345  Lileep
+346  Cradily
+
+382  Kyogre
+
+--------------------------
+
+Cave Pokémon
+
+361  Snorunt
+362  Glalie
+293  Whismur
+294  Loudred
+295  Exploud
+299  Nosepass
+302  Sableye
+303  Mawile
+360  Wynaut
+337  Lunatone
+338  Solrock
+
+377  Regirock
+378  Regice
+379  Registeel
+
+Mountain Pokémon
+
+325  Spoink
+326  Grumpig
+322  Numel
+323  Camerupt
+296  Makuhita
+297  Hariyama
+307  Meditite
+308  Medicham
+327  Spinda
+324  Torkoal
+304  Aron
+305  Lairon
+306  Aggron
+359  Absol
+
+Rough-terrain Pokémon
+
+331  Cacnea
+332  Cacturne
+328  Trapinch
+329  Vibrava
+330  Flygon
+343  Baltoy
+344  Claydol
+371  Bagon
+372  Shelgon
+373  Salamence
+374  Beldum
+375  Metang
+376  Metagross
+
+383  Groudon
+
+Rare Pokémon
+384  Rayquaza -> Forest and Sea
+386  Deoxys -> Mountain and Forest
+385  Jirachi -> Every area
+380  Latias -> Sea
+381  Latios -> Sea
