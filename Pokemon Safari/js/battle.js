@@ -53,13 +53,13 @@ var cry; var victory;
 //var ssData = JSON.parse("data.json");
 
 //for the lazy people and debuggers
-var pokemonFiller = function(lastIndex){
-  var pokedex = JSON.parse(localStorage['pokedex']);
-  for(var i = 1; i<=lastIndex;i++){
-      pokedex[i] = {"name":ssData[i-1].Pokemon, "shiny":false};
-  }
-  localStorage['pokedex'] = JSON.stringify(pokedex);
-};
+// var pokemonFiller = function(lastIndex){
+//   var pokedex = JSON.parse(localStorage['pokedex']);
+//   for(var i = 1; i<=lastIndex;i++){
+//       pokedex[i] = {"name":ssData[i-1].Pokemon, "shiny":false};
+//   }
+//   localStorage['pokedex'] = JSON.stringify(pokedex);
+// };
 
 var pokemonGenerator = {
 
@@ -251,7 +251,7 @@ var throwGreatBall =
     if (trainer.greatballs <= 0)
       elem.parentNode.removeChild(elem);
     else
-      elem.value = "Great Ball (x" + trainer.greatballs + ")";
+      elem.innerText = "Great Ball (x" + trainer.greatballs + ")";
   };
 
 var throwMasterBall = 
@@ -264,7 +264,7 @@ var throwMasterBall =
     if (trainer.masterballs <= 0)
       elem.parentNode.removeChild(elem);
     else
-      elem.value = "Master Ball (x" + trainer.masterballs + ")";
+      elem.innerText = "Master Ball (x" + trainer.masterballs + ")";
   };
 
 var throwBall = 
@@ -350,7 +350,7 @@ var throwBait =
     if (trainer.nets <= 0)
       elem.parentNode.removeChild(elem);
     else
-      elem.value = "Net (x" + trainer.nets + ")";
+      elem.innerText = "Net (x" + trainer.nets + ")";
     pokeTurn();
   };
 
