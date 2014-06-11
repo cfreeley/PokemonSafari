@@ -1,3 +1,437 @@
+
+var habitats = {};
+habitats.forest = [1,2,3,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,29,30,31,32,33,34,
+                   43,44,45,46,47,48,49,52,53,69,70,71,83,84,85,102,113,114,115,123,127,128,
+                   143];
+
+habitats.beach = [7,8,9,54,55,60,61,62,72,73,79,80,86,87,90,91,98,99,103,116,117,118,119,
+                  120,121,129,130,131,138,139,140,141,142,144,147,148,149];
+
+habitats.tunnel = [4,5,6,25,26,27,28,35,36,37,38,39,40,41,42,50,51,56,57,58,59,66,67,68,74,
+                   75,76,77,78,95,104,105,106,107,111,112,126,146];
+
+habitats.city = [63,64,65,81,82,88,89,92,93,94,96,97,100,101,108,109,110,122,124,125,132,
+                 133,134,135,136,137,145];
+
+//Johto
+habitats.park = [152,153,154,161,162,163,164,165,166,167,168,172,173,174,175,176,179,180,181,
+                  182,183,184,185,186,187,188,189,190,191,192,193,194,195,203,204,205,
+                  209,210,212,213,214,216,217,231,232,234,241,242];
+
+habitats.glacier = [158,159,160,170,171,199,208,211,215,220,221,222,223,224,225,226,
+                   230,238,246,247,248,249];
+
+habitats.tower = [155,156,157,169,177,178,196,197,198,200,201,202,206,207,218,219,
+                 227,228,229,233,235,236,237,239,240,250];
+
+//Hoenn
+habitats.jungle   = [255,256,257,261,262,263,264,276,277,315,265,266,267,268,269,285,286,273,274,275,290,291,
+                     292,313,314,287,288,289,300,301,352,333,334,357,355,356,252,253,254,353,354,280,281,282];
+habitats.sea      = [341,342,339,340,270,271,272,283,284,298,349,350,347,348,258,259,260,278,279,366,367,368,
+                     370,363,364,365,318,319,320,321,369,345,346,382];
+habitats.mountain = [361,362,293,294,295,299,302,303,360,337,338,325,326,322,323,296,297,307,308,
+                     327,324,304,305,306,359,331,332,328,329,330,343,344,371,372,373,374,375,376,383];
+
+
+var condition = 'wary'; // Either wary, angry, or eating
+var pokemon, sprite;
+var crate = 0;
+var counter = 0;
+var turn = 1;
+var level = 20;
+var tangled = 0;
+var iv = Math.floor(Math.random() * 15) + 1;
+var pokeindex;
+var trainer = JSON.parse(localStorage['trainer']);
+var dex = JSON.parse(localStorage['pokedex']);
+var currentToss = "";
+var inKantp = localStorage['location'] == 'forest' || localStorage['location'] == 'tunnel' || localStorage['location'] == 'beach' || localStorage['location'] == 'city';
+var inJohto = localStorage['location'] == 'park' || localStorage['location'] == 'glacier' || localStorage['location'] == 'tower';
+var inHoenn = localStorage['location'] == 'jungle' || localStorage['location'] == 'sea' || localStorage['location'] == 'mountain';
+var shiny = Math.random() < .002;
+var cry; var victory;
+//var ssData = JSON.parse("data.json");
+
+//for the lazy people and debuggers
+// var pokemonFiller = function(lastIndex){
+//   var pokedex = JSON.parse(localStorage['pokedex']);
+//   for(var i = 1; i<=lastIndex;i++){
+//       pokedex[i] = {"name":ssData[i-1].Pokemon, "shiny":false};
+//   }
+//   localStorage['pokedex'] = JSON.stringify(pokedex);
+// };
+
+var pokemonGenerator = {
+
+  requestPokemon: function() {
+    var location = localStorage.location;
+    switch(location){
+      case 'park':
+        location = 'park';
+        break;
+      case 'forest':
+      case 'jungle':
+      default:
+        location = 'forest';
+        break;
+      case 'glacier':
+      case 'mountain':
+        location = 'glacier';
+        break;
+      case 'tunnel':
+        location = 'tunnel'
+        break;
+      case 'beach':
+      case 'sea':
+        location = 'beach';
+        break;
+      case 'city':
+        location = 'city';
+        break;
+      case 'tower':
+        location = 'tower';
+        break;
+      }
+    chrome.browserAction.setIcon({"path":'/images/'+location + ".png"});
+    chrome.browserAction.setPopup({"popup":"/html/menu.html"});
+    chrome.notifications.clear("poke", function(){});
+    pokeindex = choosePokemon();
+    pokemon = ssData[pokeindex-1];
+
+    this.showPokemon();
+    this.initBattle();
+  },
+
+  showPokemon: function (e) {
+
+    if (localStorage['sound'] == "on") {
+      cry = new Audio(audiofy(pokeindex));
+      cry.play();
+    }
+
+    var pokemonView = document.getElementById("Pokemon");
+
+    if (dex[pokeindex]) {
+      var caught = document.createElement('img');
+      caught.src = "/images/caughtSymbol.png";
+      caught.id = "symbol";
+      document.getElementById("Pokemon").appendChild(caught);
+    }
+
+    sprite = urlifyNumber(pokeindex); // Actual sprite
+    var pokeName = pokemon.Pokemon;
+    var txtNode = document.createTextNode(" Wild " + pokeName.toUpperCase()+" appeared! ");
+    if(shiny){
+        var cls = pokemonView.getAttribute('class');
+        pokemonView.setAttribute('class', cls+' header-shiny');
+    }
+    pokemonView.appendChild(txtNode);
+
+    pokemonView.appendChild(document.createElement('br'));
+    var img = document.createElement('img');
+    img.src = sprite;
+    img.id = "sprite";
+    pokemonView.appendChild(img);
+  },
+
+  initBattle: function (e) {
+
+    crate = pokemon.Catch; 
+
+    var options = document.getElementById('Options');
+    options.appendChild(createButton('safaributton', 'Safari Ball', throwBall));
+    options.appendChild(document.createElement('br'));
+    options.appendChild(createButton('baitbutton', 'Bait', throwBait));
+    options.appendChild(createButton('rockbutton', 'Rock', throwRock));
+
+    if(trainer.greatballs && trainer.greatballs > 0) {
+      options.appendChild(document.createElement('br'));
+      options.appendChild(createButton('gbbutton', 'Great Ball (x' + trainer.greatballs + ')', throwGreatBall));
+    }
+
+    if(trainer.nets && trainer.nets > 0) {
+      if(trainer.greatballs <= 0){
+        options.appendChild(document.createElement('br'));
+      }
+      options.appendChild(createButton('netbutton', 'Net (x' + trainer.nets + ')', throwNet));
+    }
+
+    if(trainer.masterballs && trainer.masterballs > 0) {
+      if(trainer.greatballs>0 && trainer.nets>0){
+        options.appendChild(document.createElement('br'));
+      }else if(trainer.greatballs <= 0 || trainer.nets <= 0){
+        options.appendChild(document.createElement('br'));
+      }
+      options.appendChild(createButton('mbbutton', 'Master Ball (x' + trainer.masterballs + ')', throwMasterBall));
+    }
+
+  }
+};
+
+var createButton = function(elementId, elementText, onClick){
+  var button = document.createElement('a');
+  var div = document.createElement('div');
+  div.id = elementId;
+  div.setAttribute('class','button');
+  div.innerText = elementText;
+  div.onclick = onClick;
+  button.appendChild(div);
+  return button;
+}
+
+var choosePokemon = function() {
+  var location = localStorage.location;
+  if (!location)
+    location = "forest";
+  var lst = habitats[location];
+  var trainer = JSON.parse(localStorage.trainer);
+
+  //Special Pokemon alert!
+  if (Math.random() < .005) //(Math.random() < .005) - for all below
+    return 151;
+  else if (location == 'city' && Math.random() < .01)
+    return 150;
+  else if (Math.random() < .005 && inJohto) // Raikou, Entei and Suicune
+    return 243 + Math.floor(Math.random() * 3);
+  else if (Math.random() < .005 && inHoenn && location == 'mountain') // Regirock, Regice, Registeel
+    return 377 + Math.floor(Math.random() * 3);
+  else if (Math.random() < .005 && inJohto) // Celebi
+    return 251;
+  else if (Math.random() < .005 && inHoenn) // Jirachi
+    return 385;
+  else if (Math.random() < .005 && inHoenn && trainer.zoomlens) // Zoom Lens Pokemon
+    if(location == 'jungle'){
+      var choices = [384, 386]; //Rayquaza, Deoxys
+      return choices[Math.floor(Math.random() * 2)];
+
+    } else if (location == 'sea'){
+      var choices = [380, 381, 384]; //Latias, Latios, Rayquaza
+      return choices[Math.floor(Math.random() * 4)];
+
+    } else {
+      var choices = [386]; //Deoxys 
+      return choices[Math.floor(Math.random() * 1)];
+    }
+  else if (Math.random() < .00001) // lol
+    return 399;
+  return lst[Math.floor(Math.random() * lst.length)];
+  
+};
+
+var urlifyNumber = function(e) {
+  var s = '' + e;
+  while (s.length < 3)
+    s = '0' + s;
+  if (shiny) {
+      if (localStorage['style'] == '2d')
+        return 'http://www.serebii.net/Shiny/BW/' + s + '.png';
+      else
+        return 'http://www.serebii.net/Shiny/XY/' + s + '.png';
+  }
+  if (localStorage['style'] == '2d')
+    return 'http://www.serebii.net/blackwhite/pokemon/' + s + '.png';
+  else
+    return 'http://www.serebii.net/xy/pokemon/' + s + '.png';
+};
+
+var audiofy = function(e) {
+  var s = '' + e;
+  while (s.length < 3)
+    s = '0' + s;
+    return 'http://www.upokecenter.com/images/cries/' + s + 'Cry.mp3';
+};
+
+var throwGreatBall = 
+  function(e) {
+    trainer.greatballs -= 1;
+    currentToss = 'gb';
+    throwBall();
+    localStorage['trainer'] = JSON.stringify(trainer);
+    var elem = document.getElementById("gbbutton");
+    if (trainer.greatballs <= 0)
+      elem.parentNode.removeChild(elem);
+    else
+      elem.innerText = "Great Ball (x" + trainer.greatballs + ")";
+  };
+
+var throwMasterBall = 
+  function(e) {
+    trainer.masterballs -= 1;
+    currentToss = 'mb';
+    throwBall();
+    localStorage['trainer'] = JSON.stringify(trainer);
+    var elem = document.getElementById("mbbutton");
+    if (trainer.masterballs <= 0)
+      elem.parentNode.removeChild(elem);
+    else
+      elem.innerText = "Master Ball (x" + trainer.masterballs + ")";
+  };
+
+var throwBall = 
+  function(e) {
+    var resultText;
+    if (currentToss == 'gb') 
+      resultText = "You threw a Great Ball. ";
+    else if (currentToss == 'mb')
+      resultText = "You threw a Master Ball! ";
+    else
+      resultText = "You threw a Safari Ball. ";
+
+    if (isCaught(currentToss)) {
+      resultText += "1... 2... 3... Gotcha! " + pokemon.Pokemon + " was caught!";
+      var input = document.getElementById('userinput');
+      var output = document.getElementById('sysoutput');
+      var console = document.getElementById('console');
+
+      input.removeChild(document.getElementById("Options"));
+      output.removeChild(document.getElementById("status"));
+      
+      console.textContent = resultText;
+      document.getElementById("turn").textContent = "Turn " + (turn + 1);
+      if (!dex[pokeindex]) 
+        document.getElementById("caught").textContent = pokemon.Pokemon + " has been added to your Pokedex!"
+      document.getElementById("yield").textContent = "Received " + pokemon.EXPV + " PokeDollars!";
+
+      var classes = output.getAttribute('class');
+      output.setAttribute('class', classes+' pokemoncaught');
+
+      if (localStorage['sound'] == 'on') {
+        victory = new Audio('http://50.7.60.82:777/ost/pokemon-gameboy-sound-collection/csqodhnibz/108-victory-vs-wild-pokemon-.mp3');
+        victory.play();
+      }
+      recordCapture();
+      var d = JSON.parse(localStorage['pokedex']);
+      if ((Object.keys(d).length) == 75 && !dex[pokeindex]) 
+        document.getElementById("safari").textContent = "NEW SAFARI ZONE UNLOCKED!";
+    }
+    else {
+      var letdowns = ["1... Oh.", "1... Hmm.", "1... Ugh.", "1... 2... Darn!", "1... 2... Gah!", "1... 2... Shucks!", "1... 2... 3... NO-"];
+      resultText += letdowns[Math.floor(Math.random() * letdowns.length)];
+      resultText += " The " + pokemon.Pokemon + " broke free!";
+      document.getElementById("console").textContent = resultText;
+      pokeTurn();
+    }
+  };
+
+var throwRock = 
+  function(e) {
+    crate *= 2;
+    var resultText = "You threw a rock. ";
+    if (condition == 'eating')
+      counter = Math.floor((Math.random()*5)+1);
+    else
+      counter += Math.floor((Math.random()*5)+1);
+    condition = 'angry';
+    document.getElementById("console").textContent = resultText;
+    pokeTurn();
+  };
+
+var throwBait = 
+  function(e) {
+    crate /= 1.5;
+    var resultText = "You threw some bait. ";
+    if (condition == 'angry')
+      counter = Math.floor((Math.random()*5)+1);
+    else
+      counter += Math.floor((Math.random()*5)+1);
+    condition = 'eating';
+    document.getElementById("console").textContent = resultText;
+    pokeTurn();
+  };
+
+  var throwNet = 
+  function(e) {
+    var resultText = "You threw a net. ";
+    trainer.nets -= 1;
+    tangled += Math.floor((Math.random()*2)+2);
+    document.getElementById("console").textContent = resultText;
+    localStorage['trainer'] = JSON.stringify(trainer);
+    var elem = document.getElementById("netbutton");
+    if (trainer.nets <= 0)
+      elem.parentNode.removeChild(elem);
+    else
+      elem.innerText = "Net (x" + trainer.nets + ")";
+    pokeTurn();
+  };
+
+var willRun = 
+  function() {
+    var spd = Math.floor(((pokemon.Spe + iv) * level) / 50) + 10;
+    var x = spd * 2;
+    if (condition == 'angry') {
+      x *= 1.5;
+    }
+    else if (condition == 'eating') {
+      x /= 4;
+    }
+    return x > (Math.random() * 255);
+  };
+
+var isCaught =
+  function(ballType) {
+    currentToss = "";
+    var cr = crate;
+    if (ballType == 'mb')
+      return true;
+    else if (ballType == 'gb')
+      cr *= 1.5;
+    var chance = cr / 450; //math.min(151,)
+    return Math.random() < chance;
+  };
+
+var pokeTurn =
+  function() {
+    var resultText = pokemon.Pokemon;
+    turn++;
+    document.getElementById("turn").textContent = "Turn " + turn;
+    if (counter <= 0) {
+      condition = 'wary';
+      crate = ssData[pokeindex-1].Catch;
+    }
+    else {
+      counter--;
+    }
+    if (tangled > 0) {
+      tangled -= 1;
+      resultText += " is tangled in the net!";
+    }
+    else if (willRun()) {
+      resultText += " ran away!";
+      document.getElementById('userinput').removeChild(document.getElementById("Options"));
+
+      var console = document.getElementById('sysoutput');
+      var classes = console.getAttribute('class');
+      console.setAttribute('class', classes+' pokemonfled');
+
+      if (localStorage['sound'] == "on") 
+        cry.play();   
+    }
+    else {
+      resultText += " is " + condition;
+    }
+    document.getElementById("status").textContent = resultText;
+
+  };
+
+var recordCapture = 
+  function() {
+    var pkdex = JSON.parse(localStorage['pokedex']);
+    if (!pkdex[pokemon.Nat])
+      pkdex[pokemon.Nat] = {name:pokemon.Pokemon, shiny:shiny};
+    pkdex[pokemon.Nat].shiny = shiny || pkdex[pokemon.Nat].shiny; //Shiny dominates non-shiny
+    localStorage['pokedex'] = JSON.stringify(pkdex);
+        var pokee = JSON.parse(localStorage['trainer']);
+    pokee.poke += pokemon.EXPV;
+    localStorage['trainer'] = JSON.stringify(pokee);
+  };
+
+// Run our script as soon as the document's DOM is ready.
+document.addEventListener('DOMContentLoaded', function () {
+  pokemonGenerator.requestPokemon();
+});
+
+// There has to be a better way, but I couldn't find how to read local files. If you know, please end my misery. All the data is nicely in data.json
+var ssData =
 [
   {
     "Nat":1,
@@ -253,7 +687,7 @@
   },
   {
     "Nat":29,
-    "Pokemon":"Nidoran-m",
+    "Pokemon":"Nidoran-f",
     "Spe":41,
     "Total":275,
     "Type I":"Poison",
@@ -280,7 +714,7 @@
   },
   {
     "Nat":32,
-    "Pokemon":"Nidoran-f",
+    "Pokemon":"Nidoran-m",
     "Spe":50,
     "Total":273,
     "Type I":"Poison",
@@ -5966,4 +6400,4 @@
     "EXPV":270,
     "Catch":3
   }
-]
+];

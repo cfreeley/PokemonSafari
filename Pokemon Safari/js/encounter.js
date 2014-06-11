@@ -2,8 +2,36 @@ var start = function(e) {
 	if(!localStorage['trainer']) {
 		update();
 	}
-	if(localStorage['location'])
-		chrome.browserAction.setIcon({"path":localStorage['location'] + ".png"});
+  var location = localStorage.location;
+  switch(location){
+    case 'park':
+      location = 'park';
+      break;
+    case 'forest':
+    case 'jungle':
+    default:
+      location = 'forest';
+      break;
+    case 'glacier':
+    case 'mountain':
+      location = 'glacier';
+      break;
+    case 'tunnel':
+      location = 'tunnel'
+      break;
+    case 'beach':
+    case 'sea':
+      location = 'beach';
+      break;
+    case 'city':
+      location = 'city';
+      break;
+    case 'tower':
+      location = 'tower';
+      break;
+    }
+  	chrome.browserAction.setIcon({"path":"/images/"+location+ ".png"});
+	
 	console.log('start');
 	chrome.alarms.create("", {"delayInMinutes":1});
 };
@@ -23,16 +51,16 @@ var setAlarm = function(e) {
 
 var pokemonFound = function(e) {
 	setAlarm();
-	chrome.browserAction.setIcon({"path":"icon!.png"});
-	chrome.browserAction.setPopup({"popup":"battle.html"});
+	chrome.browserAction.setIcon({"path":"/images/icon!.png"});
+	chrome.browserAction.setPopup({"popup":"/html/battle.html"});
 	var opt = {
         type: "basic",
         title: "Wild Pokemon Appeared!",
         message: "Select the \"!\" icon in your browser to battle!",
-        iconUrl: "notification.png"
+        iconUrl: "/images/notification.png"
     };
-    if (localStorage['notifications'] != "off") {
-		chrome.notifications.create("poke", opt, function () {console.log("notified");});
+  if (localStorage['notifications'] != "off") {
+		chrome.notifications.create("poke", opt, function () {});
 		console.log(localStorage['notifications'] != "off");
 	}
 	else {
@@ -62,5 +90,13 @@ var update = function() {
 		}
 	}
 };
+
+// var reset = function() {
+//   localStorage['frequency'] = "common";
+//   localStorage['notifications'] = "on";
+//   localStorage['location'] = "forest";
+//   localStorage['trainer'] = JSON.stringify({poke:0});
+//   localStorage['pokedex'] = JSON.stringify({});
+// };
 
 chrome.alarms.onAlarm.addListener(pokemonFound);

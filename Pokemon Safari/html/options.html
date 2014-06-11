@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Pokemon Safari</title>
+    <link rel="stylesheet" type="text/css" href="/css/global.css">
+    <link rel="stylesheet" type="text/css" href="/css/options.css">
+    <script src="/js/menu.js"></script>
+  </head>
+  <body>
+      <div class="navibar">
+        <a href="/html/menu.html">
+          <div class="button">Back</div>
+        </a>
+        <a href="#">
+          <div class="button" id="status">Save</div>
+        </a>
+      </div>
+    <div class="header">Options</div>
+    <div id="container" class="container">
+      <span class="optionText">Encounter Frequency:</span><br>
+      <select id="frequency">
+        <option value="common">Common (~1 min)</option>
+        <option value="uncommon">Uncommon (~10 min)</option>
+        <option value="rare">Rare (~45min)</option>
+        <option value="veryrare">Very Rare (~4 hours)</option>
+        <option value="random">Random</option>
+      </select><br>
+
+      <span class="optionText">Pop-up Notifications:</span><br>
+      <select id="notifications">
+        <option value="on">On</option>
+        <option value="off">Off</option>
+      </select><br>
+
+      <span class="optionText">Style:</span><br>
+      <select id="style">
+        <option value="2d">2D Sprites</option>
+        <option value="3d">3D Models</option>
+      </select><br>
+
+      <span class="optionText">Sound Effects:</span><br>
+      <select id="sound">
+        <option value="on">On</option>
+        <option value="off">Off</option>
+      </select>
+      <br><br>
+    </div>
+  <script src="/js/options.js"></script>
+  </body>
+</html>

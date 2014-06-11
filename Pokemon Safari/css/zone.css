@@ -1,0 +1,35 @@
+@charset "UTF-8";
+
+.title {
+	height:								28px;
+	line-height:					28px;
+	padding-left: 				8px;
+	color: 								white;
+	text-align: 					center;
+	font-size: 						17px;
+	
+	background: 					#354b5e;
+}
+
+.button {
+	height: 							30px;
+	line-height: 					30px;
+	padding-left: 				10px;
+	color: 								#fff;
+	font-size: 						13px;
+	font-weight: 					700;
+	opacity: 							0.6;
+	cursor: 							pointer;
+	
+	-webkit-transition:		opacity 0.2s;
+	transition:						opacity 0.2s;
+}
+
+.button span {
+	background: 					rgba(0, 0, 0, 0.6);
+	padding: 							0 4px;
+}
+
+.button:hover {
+	opacity: 							1;
+}

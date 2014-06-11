@@ -1,20 +1,20 @@
 {
         "manifest_version": 2,
         "name": "Pokemon Safari",
-        "version": "1.5",
+        "version": "1.6.1",
         "description": "Makes wild Pokemon appear in your browser. Find them, capture them, and store them into your Pokedex.",
         "permissions": ["<all_urls>", "storage", "alarms", "notifications"],
         "browser_action": {
-            "default_icon": "iconPokeball.png",
-            "default_popup": "menu.html"
+            "default_icon": "/images/iconPokeball.png",
+            "default_popup": "/html/menu.html"
         },
         "background": {
-            "scripts": ["encounter.js"],
+            "scripts": ["/js/encounter.js"],
             "persistent": false
         },
-        "options_page": "options.html",
+        "options_page": "/html/options.html",
         "icons": {
-            "128": "safari128.png",
-            "48": "iconPokeball.png"
+            "128": "/images/safari128.png",
+            "48": "/images/iconPokeball.png"
         }
 }

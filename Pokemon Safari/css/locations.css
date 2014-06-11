@@ -1,0 +1,16 @@
+@charset "UTF-8";
+/* Kanto */
+.forest   { background-image: url(/images/big_sprites/forest.png); }
+.tunnel   { background-image: url(/images/big_sprites/tunnel.png); }
+.beach    { background-image: url(/images/big_sprites/beach.png); }
+.city     { background-image: url(/images/big_sprites/city.png); }
+
+/* Johto */
+.park     { background-image: url(/images/big_sprites/park.png); }
+.glacier  { background-image: url(/images/big_sprites/glacier.png); }
+.tower    { background-image: url(/images/big_sprites/tower.png); }
+
+/* Hoenn */
+.jungle   { background-image: url(/images/big_sprites/jungle.png); }
+.sea      { background-image: url(/images/big_sprites/sea.png); }
+.mountain { background-image: url(/images/big_sprites/mountain.png); }

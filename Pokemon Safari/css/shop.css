@@ -1,0 +1,51 @@
+body {
+  width:                auto;
+}
+
+.topmargin {
+  margin-top:           28px;
+}
+
+p.dollars {
+  background:           no-repeat url(/images/icons/money.png) 10px;
+  color:                #475f77;
+  font-size:            13px;
+  line-height:          20px;
+}
+
+p.dollars span{
+  padding-left:         35px;
+  font-weight:          bold;
+}
+
+.shopItem {
+  display:              block;
+  width:                100%;
+  font-size:            13px;
+  padding-left:         10px;  
+}
+
+.shopItem:nth-child(odd) {
+  background-color:     #e5e5e5;
+}
+
+/*.shopItemRow {
+}
+
+.shopItemCell {
+
+}*/
+
+.shopItemTitle{
+  vertical-align:       center;
+  padding-left:         20px;
+  font-weight:          bold;
+  text-align:           center;
+  line-height:          20px;
+}
+
+.shopItem:hover {
+  background:           #BEC0BC;
+  -webkit-transition:   background-color 0.2s;
+  transition:           background-color 0.2s;
+};

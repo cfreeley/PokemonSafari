@@ -1,0 +1,11 @@
+body, html {
+  height:           370px;
+  min-width:        250px;
+  background-color: white;
+}
+
+p, li{
+  word-wrap:        break-word;
+  overflow:         hidden;
+  margin-right:     15px;
+}

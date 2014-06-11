@@ -1,0 +1,54 @@
+body {
+  min-width:              250px;
+  overflow-x:             hidden;
+}
+
+.header {
+  font-size:              16px;
+}
+
+.header-shiny {
+  font-size:              16px;
+  color:                  #FEC000;
+  text-shadow:            1px 1px 0px #A0A000;
+}
+
+#sprite {
+  vertical-align:         bottom;
+  width:                  120px;
+  height:                 120px;
+  padding-left:           20%;
+  padding-right:          20%;
+  line-height:            150px;
+}
+
+.battlefield {
+  background:             no-repeat url(/images/stand.png) left 3px;
+  background-size:        100% 100%;
+  min-height:             120px;
+}
+
+#status {
+  font-style:             italic;
+}
+
+.console {
+  font-size:              13px;
+}
+
+.title {
+  height:                 35px;
+  line-height:            35px;
+  color:                  black;
+  text-align:             center;
+  font-size:              15px;
+  font-weight:            bold; 
+}
+
+.pokemoncaught{
+  background:             linear-gradient(white, #7AFF85); /*#33FF44*/
+}
+
+.pokemonfled{
+  background:             linear-gradient(white, #FF7A7A); /*#FF3333*/
+}

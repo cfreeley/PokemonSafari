@@ -1,0 +1,28 @@
+tbody{
+  font-size:        16px;
+}
+
+img {
+  vertical-align:   middle;
+  width:            100px;
+  height:           100px;
+}
+
+.topmargin {
+  margin-top:       28px;
+}
+
+.pokedex table {
+  width:            100%;
+  border-collapse:  collapse;
+  border-spacing:   0;
+  text-indent:      5px;
+}
+
+.pokedex tr:nth-child(odd) {
+  background-color: #e5e5e5;
+}
+
+.pokedex tr{
+  width:            100%;
+}

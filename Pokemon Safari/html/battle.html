@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="/css/global.css">
+    <link rel="stylesheet" type="text/css" href="/css/battle.css">
+    <!-- data-main attribute tells require.js to load scripts/main.js after require.js loads. -->
+    <!-- <script data-main="/js/main" src="/js/require.js"></script> -->
+  </head>
+  <body>
+    <div id='container' class='container'>
+      <div id='Pokemon' class='header strong'> </div>
+      <div class='showzone'>
+        <div id='battlefield' class='battlefield'></div>
+      </div>
+      <div id='userinput' >
+        <div id='Options' class='navibar'></div>
+      </div>
+      <div id='turn' class='title'>Turn 1</div>
+      <div id='sysoutput' class='console'>
+        <div id='console'></div>
+        <div id='status'></div>
+        <div id='caught'></div>
+        <div id='yield'></div>
+        <div id="exit"></div>
+        <div id='safari'></div>
+      </div>
+    </div>
+    <script src="/js/battle.js"></script>
+  </body>
+</html>
