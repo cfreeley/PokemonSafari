@@ -1,19 +1,19 @@
 function save_options() {
   var select = document.getElementById("frequency");
   var freq = select.children[select.selectedIndex].value;
-  localStorage["frequency"] = freq;
+  localStorage.frequency = freq;
 
   select = document.getElementById("notifications");
   var notif = select.children[select.selectedIndex].value;
-  localStorage["notifications"] = notif;
+  localStorage.notifications = notif;
 
   select = document.getElementById("style");
   var sty = select.children[select.selectedIndex].value;
-  localStorage["style"] = sty;
+  localStorage.style = sty;
 
-    select = document.getElementById("sound");
-  var sty = select.children[select.selectedIndex].value;
-  localStorage["sound"] = sty;
+  select = document.getElementById("sound");
+  sty = select.children[select.selectedIndex].value;
+  localStorage.sound = sty;
 
   // Update status to let user know options were saved.
   var status = document.getElementById("status");
@@ -28,7 +28,7 @@ function save_options() {
 
 // Restores select box state to saved value from localStorage.
 function restore_options() {
-  var favorite = localStorage["frequency"];
+  var favorite = localStorage.frequency;
   if (!favorite) {
     return;
   }
@@ -40,7 +40,7 @@ function restore_options() {
       break;
     }
   }
-  favorite = localStorage["notifications"];
+  favorite = localStorage.notifications;
   select = document.getElementById("notifications");
   for (var i = 0; i < select.children.length; i++) {
     var child = select.children[i];
@@ -52,7 +52,7 @@ function restore_options() {
 
   if (!localStorage['style']) 
     localStorage['style'] = '3d';
-  favorite = localStorage["style"];
+  favorite = localStorage.style;
   select = document.getElementById("style");
   for (var i = 0; i < select.children.length; i++) {
     var child = select.children[i];
@@ -64,7 +64,7 @@ function restore_options() {
 
   if (!localStorage['sound']) 
     localStorage['sound'] = 'off';
-  favorite = localStorage["sound"];
+  favorite = localStorage.sound;
   select = document.getElementById("sound");
   for (var i = 0; i < select.children.length; i++) {
     var child = select.children[i];

@@ -1,80 +1,76 @@
 var setup = function(e) {
-	if(!localStorage['location']){
-		localStorage['location'] = 'forest';
+	if(!localStorage._location){
+		localStorage._location = 'forest';
 	}
-
-  var location = localStorage.location;
-  switch(location){
-      case 'park':
-        location = 'park';
-        break;
-      case 'forest':
-      case 'jungle':
-      default:
-        location = 'forest';
-        break;
-      case 'glacier':
-      case 'mountain':
-        location = 'glacier';
-        break;
-      case 'tunnel':
-        location = 'tunnel'
-        break;
-      case 'beach':
-      case 'sea':
-        location = 'beach';
-        break;
-      case 'city':
-        location = 'city';
-        break;
-      case 'tower':
-        location = 'tower';
-        break;
-    }
-  chrome.browserAction.setIcon({"path":"/images/"+location+ ".png"});
-
-  displayZone(localStorage.location);
-  displayTrainerInfo();
+	switch(localStorage._location){
+		case 'park':
+			_location = 'park';
+			break;
+		case 'forest' || 'jungle':
+			_location = 'forest';
+			break;
+		case 'glacier' || 'mountain':
+			_location = 'glacier';
+			break;
+		case 'tunnel':
+			_location = 'tunnel';
+			break;
+		case 'beach' || 'sea':
+			_location = 'beach';
+			break;
+		case 'city':
+			_location = 'city';
+			break;
+		case 'tower':
+			_location = 'tower';
+			break;
+		default:
+			_location = 'forest';
+			break;
+		}
+	chrome.browserAction.setIcon({"path":"/images/"+_location+ ".png"});
+	displayZone(localStorage._location);
+	displayTrainerInfo();
 };
 
 document.addEventListener('DOMContentLoaded', function () {
-  setup();
+	setup();
 });
 
 var displayZone = function (zoneName){
-  //move these locations into a separate file
-  var locations = {
-  "forest"   : "Feldgrau Forest",
-  "tunnel"   : "Taupe Tunnel",
-  "beach"    : "Burnt-Sienna Beach",
-  "city"     : "Chrome City",
-  "park"     : "Peony Park",
-  "glacier"  : "Galanthus Glacier",
-  "tower"    : "Thistle Tower",
-  "jungle"   : "Jungle",
-  "sea"      : "Miracle Sea",
-  "mountain" : "Mt. Chimney"
-  };
+	//move these _locations into a separate file
+	var _locations = {
+	"forest"   : "Feldgrau Forest",
+	"tunnel"   : "Taupe Tunnel",
+	"beach"    : "Burnt-Sienna Beach",
+	"city"     : "Chrome City",
+	"park"     : "Peony Park",
+	"glacier"  : "Galanthus Glacier",
+	"tower"    : "Thistle Tower",
+	"jungle"   : "Jungle",
+	"sea"      : "Miracle Sea",
+	"mountain" : "Mt. Chimney"
+	};
 
-  var locationName = document.getElementById("location_name");
-  locationName.innerHTML = locations[zoneName];
+	var _locationName = document.getElementById("location_name");
+	_locationName.innerHTML = _locations[zoneName];
 
-  var locationElement = document.getElementById("showzone");
-  locationElement.className = "";
-  locationElement.className = "showzone "+zoneName;
+	var _locationElement = document.getElementById("showzone");
+	_locationElement.className = "";
+	_locationElement.className = "showzone "+zoneName;
 }
 
 var displayTrainerInfo = function(){
-  var trainer = JSON.parse(localStorage['trainer']);
-  var pokedex = JSON.parse(localStorage['pokedex']);
-  document.getElementById('balance').innerHTML = trainer['poke'];
-  document.getElementById('found_pokemon').innerHTML = Object.keys(pokedex).length;
-  var totalPokemon = 151;
-  if(trainer.jticket){
-    totalPokemon = 251;
-  }
-  if(trainer.hticket){
-    totalPokemon = 386;
-  }
-  document.getElementById('total_pokemon').innerHTML = totalPokemon;
+	var trainer = JSON.parse(localStorage.trainer);
+	var pokedex = JSON.parse(localStorage.pokedex);
+	document.getElementById('balance').innerHTML = trainer.poke;
+	document.getElementById('found_pokemon').innerHTML = Object.keys(pokedex).length;
+	var totalPokemon = 151;
+	if(trainer.jticket){
+		totalPokemon = 251;
+	}
+	if(trainer.hticket){
+		totalPokemon = 386;
+	}
+	document.getElementById('total_pokemon').innerHTML = totalPokemon;
 }
