@@ -41,10 +41,9 @@ var createHeader = function(name){
 		return header;
 };
 
-var click = function(e) {
-	return function() {
-		localStorage._location = e.id;
-		var _location = e.id;
+function getLocation(e){
+	localStorage._location = e.id;
+	var _location = e.id;
   	switch(_location){
 		case 'park':
 			_location = 'park';
@@ -71,7 +70,13 @@ var click = function(e) {
 			_location = 'forest';
 			break;
 		}
-  	chrome.browserAction.setIcon({"path":"/images/"+_location+ ".png"});
+		return _location;
+}
+
+var click = function(e) {
+	return function() {
+		_location = getLocation(e);
+  		chrome.browserAction.setIcon({"path":"/images/"+_location+ ".png"});
 		document.location = "menu.html";
 	};
 };

@@ -1,7 +1,4 @@
-var setup = function(e) {
-	if(!localStorage._location){
-		localStorage._location = 'forest';
-	}
+function getLocation() {
 	switch(localStorage._location){
 		case 'park':
 			_location = 'park';
@@ -28,6 +25,14 @@ var setup = function(e) {
 			_location = 'forest';
 			break;
 		}
+	return _location;
+}
+
+var setup = function(e) {
+	if(!localStorage._location){
+		localStorage._location = 'forest';
+	}
+	_location = getLocation();
 	chrome.browserAction.setIcon({"path":"/images/"+_location+ ".png"});
 	displayZone(localStorage._location);
 	displayTrainerInfo();
@@ -58,7 +63,7 @@ var displayZone = function (zoneName){
 	var _locationElement = document.getElementById("showzone");
 	_locationElement.className = "";
 	_locationElement.className = "showzone "+zoneName;
-}
+};
 
 var displayTrainerInfo = function(){
 	var trainer = JSON.parse(localStorage.trainer);
@@ -73,4 +78,4 @@ var displayTrainerInfo = function(){
 		totalPokemon = 386;
 	}
 	document.getElementById('total_pokemon').innerHTML = totalPokemon;
-}
+};	

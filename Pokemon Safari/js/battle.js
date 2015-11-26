@@ -10,7 +10,7 @@ var currentToss = "";
 var inKantp = localStorage._location == 'forest' || localStorage._location == 'tunnel' || localStorage._location == 'beach' || localStorage._location == 'city';
 var inJohto = localStorage._location == 'park' || localStorage._location == 'glacier' || localStorage._location == 'tower';
 var inHoenn = localStorage._location == 'jungle' || localStorage._location == 'sea' || localStorage._location == 'mountain';
-var shiny = Math.random() < 0.002;
+var shiny = Math.random() < 0.02;
 var cry; var victory; var ssData = {};
 var JSONPokedexUrl = chrome.extension.getURL('/js/data.json');
 var JSONHabitatsUrl = chrome.extension.getURL('/js/habitats.json');
@@ -24,48 +24,55 @@ var JSONHabitatsUrl = chrome.extension.getURL('/js/habitats.json');
 //   }
 //   localStorage['pokedex'] = JSON.stringify(pokedex);
 // };
+
+function getLocation() {
+	switch(localStorage._location){
+		case 'park':
+			_location = 'park';
+			break;
+		case 'forest' || 'jungle':
+			_location = 'forest';
+			break;
+		case 'glacier' || 'mountain':
+			_location = 'glacier';
+			break;
+		case 'tunnel':
+			_location = 'tunnel';
+			break;
+		case 'beach' || 'sea':
+			_location = 'beach';
+			break;
+		case 'city':
+			_location = 'city';
+			break;
+		case 'tower':
+			_location = 'tower';
+			break;
+		default:
+			_location = 'forest';
+			break;
+		}
+	return _location;
+}
+
 function initializeVars(){
+
 	var pokemonGenerator = {
 		requestPokemon: function() {
-		switch(localStorage._location){
-			case 'park':
-				_location = 'park';
-				break;
-			case 'forest' || 'jungle':
-				_location = 'forest';
-				break;
-			case 'glacier' || 'mountain':
-				_location = 'glacier';
-				break;
-			case 'tunnel':
-				_location = 'tunnel';
-				break;
-			case 'beach' || 'sea':
-				_location = 'beach';
-				break;
-			case 'city':
-				_location = 'city';
-				break;
-			case 'tower':
-				_location = 'tower';
-				break;
-			default:
-				_location = 'forest';
-				break;
-			}
-		chrome.browserAction.setIcon({"path":'/images/'+_location + ".png"});
-		chrome.browserAction.setPopup({"popup":"/html/menu.html"});
-		chrome.notifications.clear("poke", function(){});
-		pokeindex = choosePokemon();
-		pokemon = ssData[pokeindex-1];
+			_location = getLocation();
+			chrome.browserAction.setIcon({"path":'/images/'+_location + ".png"});
+			chrome.browserAction.setPopup({"popup":"/html/menu.html"});
+			chrome.notifications.clear("poke", function(){});
+			pokeindex = choosePokemon();
+			pokemon = ssData[pokeindex-1];
 
-		this.showPokemon();
-		this.initBattle();
+			this.showPokemon();
+			this.initBattle();
 		},
 
 		showPokemon: function (e) {
 
-		if (localStorage['sound'] == "on") {
+		if (localStorage.sound == "on") {
 			cry = new Audio(audiofy(pokeindex));
 			cry.play();
 		}
@@ -140,6 +147,23 @@ function initializeVars(){
 		return button;
 	};
 
+	function getSpecialThird(){
+		var choices;
+		if(_location == 'jungle'){
+			choices = [384, 386]; //Rayquaza, Deoxys
+			return choices[Math.floor(Math.random() * 2)];
+		} else if (_location == 'sea'){
+			choices = [380, 381, 384]; //Latias, Latios, Rayquaza
+			return choices[Math.floor(Math.random() * 4)];
+		} else {
+			choices = [386]; //Deoxys 
+			return choices[Math.floor(Math.random() * 1)];
+		}
+
+		//if none of the above
+		return 0;
+	}
+
 	var specialPokemon = function () {
 		if (Math.random() < 0.05) {return 151;}
 		else if (_location == 'city' && Math.random() < 0.01) {return 150;}
@@ -156,25 +180,14 @@ function initializeVars(){
 			return 385; // Jirachi
 		}
 		else if (Math.random() < 0.05 && inHoenn && trainer.zoomlens) {// Zoom Lens Pokemon
-			var choices;
-			if(_location == 'jungle'){
-				choices = [384, 386]; //Rayquaza, Deoxys
-				return choices[Math.floor(Math.random() * 2)];
-
-			} else if (_location == 'sea'){
-				choices = [380, 381, 384]; //Latias, Latios, Rayquaza
-				return choices[Math.floor(Math.random() * 4)];
-
-			} else {
-				choices = [386]; //Deoxys 
-				return choices[Math.floor(Math.random() * 1)];
-			}
+			specialThird = getSpecialThird();
+			if (specialThird) {return specialThird;}
 		}
 		else if (Math.random() < 0.01) {return 399;}
 
 		//if none of the above
 		return 0;
-	}
+	};
 
 	var choosePokemon = function() {
 		var _location = localStorage._location;

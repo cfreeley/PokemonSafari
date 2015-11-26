@@ -1,31 +1,36 @@
+function getLocation() {
+		switch(localStorage._location){
+			case 'park':
+				_location = 'park';
+				break;
+			case 'forest' || 'jungle':
+				_location = 'forest';
+				break;
+			case 'glacier' || 'mountain':
+				_location = 'glacier';
+				break;
+			case 'tunnel':
+				_location = 'tunnel';
+				break;
+			case 'beach' || 'sea':
+				_location = 'beach';
+				break;
+			case 'city':
+				_location = 'city';
+				break;
+			case 'tower':
+				_location = 'tower';
+				break;
+			default:
+				_location = 'forest';
+				break;
+			}
+		return _location;
+	}
+
 var start = function(e) {
 	if(!localStorage.trainer) { update(); }
- 	switch(localStorage._location){
-		case 'park':
-			_location = 'park';
-			break;
-		case 'forest' || 'jungle':
-			_location = 'forest';
-			break;
-		case 'glacier' || 'mountain':
-			_location = 'glacier';
-			break;
-		case 'tunnel':
-			_location = 'tunnel';
-			break;
-		case 'beach' || 'sea':
-			_location = 'beach';
-			break;
-		case 'city':
-			_location = 'city';
-			break;
-		case 'tower':
-			_location = 'tower';
-			break;
-		default:
-			_location = 'forest';
-			break;
-		}
+ 	_location = getLocation();
   	chrome.browserAction.setIcon({"path":"/images/"+_location+ ".png"});
 	chrome.alarms.create("", {"delayInMinutes":1});
 };
