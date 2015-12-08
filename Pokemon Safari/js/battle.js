@@ -164,7 +164,7 @@ function initializeVars(){
 		return 0;
 	}
 
-	var specialPokemon = function () {
+	var tryForSpecialPokemon = function () {
 		if (Math.random() < 0.05) {return 151;}
 		else if (_location == 'city' && Math.random() < 0.01) {return 150;}
 		else if (Math.random() < 0.05 && inJohto){ 
