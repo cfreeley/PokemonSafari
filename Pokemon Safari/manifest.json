@@ -16,5 +16,8 @@
         "icons": {
             "128": "/images/safari128.png",
             "48": "/images/iconPokeball.png"
-        }
+        },
+        "web_accessible_resources": [
+            "js/data.json"
+        ]
 }

@@ -8,8 +8,8 @@ var items = [
 	{name:"Zoom Lens", cost:2000, id:"zoomlens", rq:300, img:"/images/zoomlens.png", desc:"A peculiar binocular that is used to study Pokemon far up in the sky", onlyone:true}];
 	
 var setup = function(e) {
-	var trainer = JSON.parse(localStorage['trainer']);
-	var dex = JSON.parse(localStorage['pokedex']);
+	var trainer = JSON.parse(localStorage.trainer);
+	var dex = JSON.parse(localStorage.pokedex);
 	document.getElementById('balance').textContent = trainer.poke;
 	var stk = document.getElementById('stock');
 
@@ -49,9 +49,9 @@ var setup = function(e) {
 
 				var row3 = document.createElement('div');
 				row3.setAttribute('class', 'shopItemRow');
-
+				var cost;
 				if (trainer[""+item.id] >= 1 && item.onlyone){
-			    var cost = document.createElement('span')
+			    cost = document.createElement('span');
 			    cost.innerHTML = ' <strong>Already purchased.</strong>';
 			    cost.setAttribute('class', 'shopItemCell');
 					row3.appendChild(cost);
@@ -63,7 +63,7 @@ var setup = function(e) {
 		    	buttonBuy.setAttribute('class', 'shopItemCell');
 		    	row3.appendChild(buttonBuy);
 
-			    var cost = document.createElement('span');
+			    cost = document.createElement('span');
    				var quantityInBag =  trainer[""+item.id]? '<strong>'+trainer[""+item.id] + "</strong> in bag." : "";
 			    cost.innerHTML = ' <strong>'+item.cost + "</strong> poke. " + quantityInBag;
 			    cost.setAttribute('class', 'shopItemCell');
@@ -79,7 +79,7 @@ var setup = function(e) {
 
 var buy = function (e) {
 	return function() {
-		var t = JSON.parse(localStorage['trainer']);
+		var t = JSON.parse(localStorage.trainer);
 		console.log(t.poke + " " + e.cost);
 		if (t.poke >= e.cost) {
 			console.log(t[""+e.id]);
@@ -87,7 +87,7 @@ var buy = function (e) {
 				t[""+e.id] = 0;
 			t[""+e.id]++;
 			t.poke -= e.cost;
-			localStorage['trainer'] = JSON.stringify(t);
+			localStorage.trainer = JSON.stringify(t);
 			setup();
 		}
 	};
