@@ -12,6 +12,11 @@ img {
   margin-top:       28px;
 }
 
+.pokedex {
+  height: 560px;
+  overflow: auto;
+}
+
 .pokedex table {
   width:            100%;
   border-collapse:  collapse;
